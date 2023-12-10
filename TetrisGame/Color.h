@@ -45,12 +45,14 @@ public:
 	static const int YELLOW = 14;
 	static const int WHITE = 15;
 
-	// Methods
-	static void consoleColor(int background, int text);
-	static void consoleTextColor(int text);
-
 	// 0: Black 1: Blue 2: Green 3: Cyan 4: Red 5: Magenta 6: Brown 7: LightGray 8: DarkGray 9: LightBlue 10: LightGreen 11: LightCyan 12: LightRed 13: LightMagenta 14: Yellow 15: White
-	static vector<Color> getColors();
+	void consoleColor(int background, int text);
+	// 0: Black 1: Blue 2: Green 3: Cyan 4: Red 5: Magenta 6: Brown 7: LightGray 8: DarkGray 9: LightBlue 10: LightGreen 11: LightCyan 12: LightRed 13: LightMagenta 14: Yellow 15: White
+	void consoleTextColor(int text);
+	// 0: Black 1: Blue 2: Green 3: Cyan 4: Red 5: Magenta 6: Brown 7: LightGray 8: DarkGray 9: LightBlue 10: LightGreen 11: LightCyan 12: LightRed 13: LightMagenta 14: Yellow 15: White
+	vector<Color> getColors();
+	// 0: Black 1: GREEN 2: RED 3: BROWN 4: YELLOW 5: Magenta 6: CYAN 7: BLUE
+	vector<Color> getBlockColors();
 
 	// Singleton
 	static Color* getInstance();

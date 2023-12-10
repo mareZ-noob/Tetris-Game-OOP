@@ -60,6 +60,20 @@ vector<Color> Color::getColors()
 	};
 }
 
+vector<Color> Color::getBlockColors()
+{
+	return {
+		Color(Color::BLACK, Color::BLACK),
+		Color(Color::BLACK, Color::GREEN),
+		Color(Color::BLACK, Color::RED),
+		Color(Color::BLACK, Color::BROWN),
+		Color(Color::BLACK, Color::YELLOW),
+		Color(Color::BLACK, Color::MAGENTA),
+		Color(Color::BLACK, Color::CYAN),
+		Color(Color::BLACK, Color::BLUE),
+	};
+}
+
 Color* Color::instance = nullptr;
 mutex Color::mutex_;
 Color* Color::getInstance()

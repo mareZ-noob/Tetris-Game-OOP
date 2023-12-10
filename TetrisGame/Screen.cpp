@@ -78,10 +78,10 @@ void Screen::showCursor(bool visible)
     SetConsoleCursorInfo(console, &cursor);
 }
 
-void Screen::moveCursor(const int posX, const int posY)
+void Screen::moveCursor(const double posX, const double posY)
 {
     COORD CursorPosition;
-    CursorPosition.X = posX;
+    CursorPosition.X = 2*posX;
     CursorPosition.Y = posY;
     SetConsoleCursorPosition(console, CursorPosition);
 }
@@ -121,7 +121,7 @@ void Screen::clearScreen()
         homeCoords,
         &count))
         return;
-
+    
     if (!FillConsoleOutputAttribute(
         hStdOut,
         csbi.wAttributes,
@@ -131,6 +131,11 @@ void Screen::clearScreen()
         return;
 
     SetConsoleCursorPosition(hStdOut, homeCoords);
+}
+
+void Screen::resetConsoleColor()
+{
+    SetConsoleTextAttribute(console, Color::WHITE);
 }
 
 void Screen::consoleInit()
@@ -143,17 +148,22 @@ void Screen::consoleInit()
     Screen::ShowScrollbar(0);
     Screen::DisableResizeWindow();
     Screen::DisableCtrButton(0, 1, 1);
+    HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+    SetConsoleActiveScreenBuffer(hConsole);
 }
 
-void Screen::DrawRectangle(Position pos, int width, int height, Color color)
+void Screen::DrawRectangle(double posX, double posY, int width, int height, Color color, const char c)
 {
-    Color::consoleColor(color.getBackground(), color.getText());
-    for (int i = 0; i < height; i++)
+    Color::getInstance()->consoleColor(color.getBackground(), color.getText());
+    for (int i = 0; i < height; ++i)
     {
-		Screen::moveCursor(pos.getCol(), pos.getRow() + i);
-        for (int j = 0; j < width; j++)
+        moveCursor(posX/2, posY + i);
+
+        for (int j = 0; j < width; ++j)
         {
-			cout << " ";
-		}
-	}
+            cout << c;
+        }
+    }
+
+    Color::getInstance()->consoleColor(Color::BLACK, Color::WHITE);
 }

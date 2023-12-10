@@ -10,12 +10,12 @@ Position::~Position()
 {
 }
 
-int Position::getRow()
+int Position::getRow() const
 {
 	return this->row;
 }
 
-int Position::getCol()
+int Position::getCol() const
 {
 	return this->col;
 }

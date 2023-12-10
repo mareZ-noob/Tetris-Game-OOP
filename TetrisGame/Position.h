@@ -7,9 +7,8 @@ private:
 public:
 	Position(int row, int col);
 	~Position();
-	int getRow();
-	int getCol();
+	int getRow() const;
+	int getCol() const;
 	void setRow(int row);
 	void setCol(int col);
 };
-

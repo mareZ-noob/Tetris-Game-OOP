@@ -6,11 +6,11 @@
 #include "Color.h"
 #include "Position.h"
 
-using std::string;
 using std::cout;
 using std::endl;
 using std::mutex;
 using std::lock_guard;
+using std::string;
 
 class Screen
 {
@@ -34,11 +34,13 @@ public:
 	void DisableCtrButton(bool Close, bool Min, bool Max);
 	void ShowScrollbar(BOOL Show);
 	void showCursor(bool visible);
-	void moveCursor(const int posX, const int posY);
+	void moveCursor(const double posX, const double posY);
 	void disableMouseInput();
 	void consoleTitle();
 	void clearScreen();
+	void resetConsoleColor();
 	void consoleInit();
 
-	void DrawRectangle(Position pos, int width, int height, Color color);
+	//void DrawRectangle(Position pos, int width, int height, Color color);
+	void DrawRectangle(double posX, double posY, int width, int height, Color color, const char c);
 };
