@@ -8,6 +8,7 @@ Game::Game() {
 	score = 0;
 	mode = 1;
 	gameOver = false;
+	speed = 300;
 }
 
 Game::~Game() {
@@ -27,6 +28,18 @@ void Game::setMode(int level) {
 	this->mode = level;
 }
 
+bool Game::getGameOver() const {
+	return this->gameOver;
+}
+
+void Game::setSpeed(int speed) {
+	this->speed = speed;
+}
+
+int Game::getSpeed() const {
+	return this->speed;
+}
+
 Block Game::getRandomBlock() {
 	srand(time(NULL));
 	int random = rand() % blocks.size();
@@ -37,7 +50,11 @@ Block Game::getRandomBlock() {
 void Game::handleInput() {
 	int key = _getch();
 	if (gameOver && key != 0) {
-		newGame();
+		//newGame();
+		Screen::getInstance()->clearScreen();
+		Screen::getInstance()->moveCursor(0, 0);
+		cout << "Game over! Your score is: " << score << endl;
+		Sleep(1000);
 	}
 	switch (key) {
 		case KEY_a:
@@ -178,10 +195,21 @@ void Game::disableBlock() {
 }
 
 void Game::updateScore(int rowsDestroy) {
-	score += rowsDestroy * 10;
+	if (mode == 1) {
+		score += rowsDestroy * 10;
+	}
+	else if (mode == 2) {
+		score += rowsDestroy * 50;
+	}
 }
 
-bool Game::checkWin() {
+bool Game::checkLose() {
+	for (int i = 0; i < 10; i++) {
+		if (grid.grid[0][i] != 0) {
+			gameOver = true;
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -192,4 +220,30 @@ void Game::newGame() {
 	nextBlock = getRandomBlock();
 	score = 0;
 	gameOver = false;
+	mode = 1;
+	speed = 300;
+}
+
+void Game::runTetris() {
+	Game game = Game();
+	const milliseconds updateInterval(speed);
+
+    future<void> handleInputFuture = async(launch::async, [&game]() {
+        while (true) {
+            game.handleInput();
+        }
+    });
+    while (true) {
+        game.gameDisplay();
+        sleep_for(updateInterval);
+        game.moveDown();
+
+		if (game.checkLose()) {
+			Screen::getInstance()->clearScreen();
+			Screen::getInstance()->moveCursor(0, 0);
+			cout << "Game over! Your score is: " << game.score << endl;
+			Sleep(1000);
+			break;
+		}
+    }
 }

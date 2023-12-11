@@ -1,15 +1,23 @@
 #pragma once
+#include <chrono>
 #include <conio.h>
 #include <cstdlib>
+#include <future>
 #include <map>
 #include <random>
 #include <time.h>
+#include <thread>
 #include <vector>
 
 #include "Block.h"
 #include "Grid.h"
 #include "Constant.h"
 
+using std::async;
+using std::chrono::milliseconds;
+using std::future;
+using std::launch;
+using std::this_thread::sleep_for;
 using std::vector;
 
 class Game {
@@ -23,6 +31,7 @@ private:
 	int mode; // 1: easy, 2: hard
 	int score;
 	bool gameOver;
+	int speed;
 public:
 	// Constructor and destructor
 	Game();
@@ -32,6 +41,9 @@ public:
 	vector<Block> getBlocks() const;
 	int getMode() const;
 	void setMode(int level);
+	bool getGameOver() const;
+	void setSpeed(int speed);
+	int getSpeed() const;
 
 	// Game display
 	Block getRandomBlock();
@@ -53,6 +65,9 @@ public:
 
 	// Score
 	void updateScore(int rowsDestroy);
-	bool checkWin();
+	bool checkLose();
 	void newGame();
+
+	// Game start
+	void runTetris();
 };

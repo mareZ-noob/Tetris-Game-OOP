@@ -45,7 +45,7 @@ vector<Position> Block::getCellsPositions() {
 	}
 	return move;
 }
-
+ 
 void Block::rightRotate() {
 	rotationState++;
 	if (rotationState == cells.size()) {

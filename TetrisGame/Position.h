@@ -1,4 +1,5 @@
 #pragma once
+
 class Position {
 private:
 	int row;
