@@ -1,7 +1,6 @@
 #include "Block.h"
 
-Block::Block()
-{
+Block::Block() {
 	cellSize = 1;
 	rotationState = 0;
 	colors = Color::getInstance()->getBlockColors();
@@ -10,35 +9,33 @@ Block::Block()
 	symbol = ' ';
 }
 
-Block::~Block()
-{
+Block::~Block() {
 	
 }
 
 void Block::setSymbol(char symbol) { 
 	this->symbol = symbol; 
 }
+
 char Block::getSymbol() const {
 	return symbol; 
 }
 
-void Block::Draw()
-{
-	vector<Position> blockCells = GetCellsPositions();
-	const int row = 11, col = 21;
+void Block::Draw() {
+	vector<Position> blockCells = getCellsPositions();
+	const int row = 11;
+	const int col = 21;
 	for (Position cell : blockCells) {
 		Screen::getInstance()->DrawRectangle(col + 2*cell.getCol(), row + cell.getRow(), cellSize, cellSize, colors[id], getSymbol());
 	}
 }
 
-void Block::Move(int rows, int cols)
-{
+void Block::Move(int rows, int cols) {
 	rowOffset += rows;
 	colOffset += cols;
 }
 
-vector<Position> Block::GetCellsPositions()
-{
+vector<Position> Block::getCellsPositions() {
 	vector<Position> blockCells = cells[rotationState];
 	vector<Position> movedTiles;
 	for (Position cell : blockCells) {
@@ -47,12 +44,16 @@ vector<Position> Block::GetCellsPositions()
 	return movedTiles;
 }
 
-void Block::Rotate()
-{
-
+void Block::Rotate() {
+	rotationState++;
+	if (rotationState == cells.size()) {
+		rotationState = 0;
+	}
 }
 
-void Block::UndoRotate()
-{
-
+void Block::disRotate() {
+	rotationState--;
+	if (rotationState == -1) {
+		rotationState = cells.size() - 1;
+	}
 }

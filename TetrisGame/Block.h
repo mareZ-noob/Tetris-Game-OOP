@@ -8,8 +8,7 @@
 using std::vector;
 using std::map;
 
-class Block
-{
+class Block {
 private:
 	int cellSize;
 	int rotationState;
@@ -19,7 +18,7 @@ private:
 	char symbol;
 public:
 	int id;
-	std::map<int, std::vector<Position>> cells;
+	map<int, vector<Position>> cells;
 
 	Block();
 	~Block();
@@ -29,28 +28,26 @@ public:
 
 	void Draw();
 	void Move(int rows, int cols);
-	vector<Position> GetCellsPositions();
+	vector<Position> getCellsPositions();
 	void Rotate();
-	void UndoRotate();
+	void disRotate();
 };
 
-class LBlock : public Block
-{
+class IBlock : public Block {
 public:
-	LBlock() {
+	IBlock() {
 		id = 1;
-		setSymbol('L');
-		cells[0] = { Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2) };
-		cells[1] = { Position(0, 1), Position(1, 1), Position(2, 1), Position(2, 2) };
-		cells[2] = { Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 0) };
-		cells[3] = { Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1) };
-		Move(0, 3);
-	}
-	~LBlock() = default;
+		setSymbol('I');
+		cells[0] = { Position(1, 0), Position(1, 1), Position(1, 2), Position(1, 3) };
+		cells[1] = { Position(0, 2), Position(1, 2), Position(2, 2), Position(3, 2) };
+		cells[2] = { Position(2, 0), Position(2, 1), Position(2, 2), Position(2, 3) };
+		cells[3] = { Position(0, 1), Position(1, 1), Position(2, 1), Position(3, 1) };
+		Move(-1, 3);
+	};
+	~IBlock() = default;
 };
 
-class JBlock : public Block
-{
+class JBlock : public Block {
 public:
 	JBlock() {
 		id = 2;
@@ -64,24 +61,21 @@ public:
 	~JBlock() = default;
 };
 
-class IBlock : public Block
-{
+class LBlock : public Block {
 public:
-	IBlock() {
+	LBlock() {
 		id = 3;
-		setSymbol('I');
-		cells[0] = { Position(1, 0), Position(1, 1), Position(1, 2), Position(1, 3) };
-		cells[1] = { Position(0, 2), Position(1, 2), Position(2, 2), Position(3, 2) };
-		cells[2] = { Position(2, 0), Position(2, 1), Position(2, 2), Position(2, 3) };
-		cells[3] = { Position(0, 1), Position(1, 1), Position(2, 1), Position(3, 1) };
-		Move(-1, 3);
-	};
-
-	~IBlock() = default;
+		setSymbol('L');
+		cells[0] = { Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2) };
+		cells[1] = { Position(0, 1), Position(1, 1), Position(2, 1), Position(2, 2) };
+		cells[2] = { Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 0) };
+		cells[3] = { Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1) };
+		Move(0, 3);
+	}
+	~LBlock() = default;
 };
 
-class OBlock : public Block
-{
+class OBlock : public Block {
 public:
 	OBlock() {
 		id = 4;
@@ -92,8 +86,7 @@ public:
 	~OBlock() = default;
 };
 
-class SBlock : public Block
-{
+class SBlock : public Block {
 public: 
 	SBlock() {
 		id = 5;
@@ -107,8 +100,7 @@ public:
 	~SBlock() = default;
 };
 
-class TBlock : public Block
-{
+class TBlock : public Block {
 public: 
 	TBlock() {
 		id = 6;
@@ -122,8 +114,7 @@ public:
 	~TBlock() = default;
 };
 
-class ZBlock : public Block
-{
+class ZBlock : public Block {
 public: 
 	ZBlock() {
 		id = 7;

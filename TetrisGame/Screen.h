@@ -12,8 +12,7 @@ using std::mutex;
 using std::lock_guard;
 using std::string;
 
-class Screen
-{
+class Screen {
 private:
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);

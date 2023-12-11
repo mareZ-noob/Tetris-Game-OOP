@@ -7,8 +7,7 @@ using std::vector;
 using std::mutex;
 using std::lock_guard;
 
-class Color
-{
+class Color {
 private:
 	static Color* instance;
 	static mutex mutex_;

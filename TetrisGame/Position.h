@@ -1,6 +1,5 @@
 #pragma once
-class Position
-{
+class Position {
 private:
 	int row;
 	int col;

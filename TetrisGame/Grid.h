@@ -6,11 +6,9 @@
 #include "Screen.h"
 
 using std::cout;
-using std::endl;
 using std::vector;
 
-class Grid
-{
+class Grid {
 private:
 	int numRows;
 	int numCols;
@@ -22,7 +20,14 @@ public:
 	Grid();
 	~Grid();
 
-	void InitGrid();
-	void DrawGrid();
-	void DrawBlock();
+	void initGrid();
+	void drawGrid();
+	void drawBlock();
+
+	bool isCellEmpty(int row, int col);
+	bool isCellOutside(int row, int col);
+	bool isRowFull(int row);
+	void clearRow(int row);
+	void moveRowDown(int row, int numRows);
+	int clearRows();
 };
