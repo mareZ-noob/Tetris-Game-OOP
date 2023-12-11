@@ -29,10 +29,9 @@ Block Game::getRandomBlock() {
 
 void Game::handleInput() {
 	int key = _getch();
-	/*if (gameOver && key != 0) {
-		gameOver = false;
+	if (gameOver && key != 0) {
 		newGame();
-	}*/
+	}
 	switch (key) {
 		case KEY_LEFT:
 			moveLeft();
@@ -53,6 +52,15 @@ void Game::gameDisplay() {
 	Screen::getInstance()->clearScreen();
 	grid.drawGrid();
 	currentBlock.Draw();
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (grid.grid[i][j] != 0) {
+				int cellValue = grid.grid[i][j];
+				int cellSize = currentBlock.getCellSize();
+				Screen::getInstance()->DrawRectangle(COL + 2 * j, ROW + i, cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
+			}
+		}
+	}
 }
 
 void Game::moveLeft() {
@@ -143,4 +151,5 @@ void Game::newGame() {
 	nextBlock = getRandomBlock();
 	level++;
 	score = 0;
+	gameOver = false;
 }

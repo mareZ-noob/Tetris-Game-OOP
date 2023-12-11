@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Color.h"
+#include "Constant.h"
 #include "Screen.h"
 
 using std::cout;

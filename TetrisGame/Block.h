@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 
+#include "Constant.h"
 #include "Position.h"
 #include "Screen.h"
 
@@ -25,6 +26,7 @@ public:
 
 	void setSymbol(char symbol);
 	char getSymbol() const;
+	int getCellSize() const;
 
 	void Draw();
 	void Move(int rows, int cols);

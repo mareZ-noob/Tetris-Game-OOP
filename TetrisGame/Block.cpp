@@ -21,12 +21,14 @@ char Block::getSymbol() const {
 	return symbol; 
 }
 
+int Block::getCellSize() const {
+	return cellSize;
+}
+
 void Block::Draw() {
 	vector<Position> blockCells = getCellsPositions();
-	const int row = 11;
-	const int col = 21;
 	for (Position cell : blockCells) {
-		Screen::getInstance()->DrawRectangle(col + 2*cell.getCol(), row + cell.getRow(), cellSize, cellSize, colors[id], getSymbol());
+		Screen::getInstance()->DrawRectangle(COL + 2*cell.getCol(), ROW + cell.getRow(), cellSize, cellSize, colors[id], getSymbol());
 	}
 }
 
@@ -37,11 +39,11 @@ void Block::Move(int rows, int cols) {
 
 vector<Position> Block::getCellsPositions() {
 	vector<Position> blockCells = cells[rotationState];
-	vector<Position> movedTiles;
+	vector<Position> move;
 	for (Position cell : blockCells) {
-		movedTiles.push_back(Position(cell.getRow() + rowOffset, cell.getCol() + colOffset));
+		move.push_back(Position(cell.getRow() + rowOffset, cell.getCol() + colOffset));
 	}
-	return movedTiles;
+	return move;
 }
 
 void Block::Rotate() {

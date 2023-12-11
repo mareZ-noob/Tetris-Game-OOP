@@ -62,7 +62,7 @@
     <ClInclude Include="Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header.h">
+    <ClInclude Include="Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -31,12 +31,10 @@ void Grid::drawGrid() {
 }
 
 void Grid::drawBlock() {
-	const int row = 11;
-	const int col = 21;
 	for (int i = 0; i < numRows; i++) {
 		for (int j = 0; j < numCols; j++) {
 			int cellValue = grid[i][j];
-			Screen::getInstance()->DrawRectangle(col + 2*j, row + i, cellSize, cellSize, colors[cellValue], 'A');
+			Screen::getInstance()->DrawRectangle(COL + 2*j, ROW + i, cellSize, cellSize, colors[cellValue], 'A');
 		}
 	}
 }
