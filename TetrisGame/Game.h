@@ -20,27 +20,38 @@ private:
 	Block currentBlock;
 	Block nextBlock;
 	Grid grid;
+	int mode; // 1: easy, 2: hard
 	int score;
-	int level;
 	bool gameOver;
 public:
+	// Constructor and destructor
 	Game();
 	~Game();
 
+	// Getters and setters
 	vector<Block> getBlocks() const;
+	int getMode() const;
+	void setMode(int level);
+
+	// Game display
 	Block getRandomBlock();
 	void handleInput();
+	void drawNextBlock();
 	void gameDisplay();
 
+	// Movement
 	void moveLeft();
 	void moveRight();
 	void moveDown();
-	void rotateBlock();
+	void rightRotateBlock();
+	void leftRotateBlock();
 
+	// Collision
 	bool verticalCollision();
 	bool horizontalCollision();
 	void disableBlock();
 
+	// Score
 	void updateScore(int rowsDestroy);
 	bool checkWin();
 	void newGame();

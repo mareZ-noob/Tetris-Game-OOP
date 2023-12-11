@@ -21,12 +21,15 @@ private:
 	static Screen* instance;
 	static mutex mutex_;
 public:
+	// Constructor and destructor
 	Screen();
 	~Screen();
 
+	// Singleton
 	static Screen* getInstance();
 	static void deleteInstance();
 
+	// Console functions
 	void SetWindowSize(const int width, const int height);
 	void SetScreenBufferSize(SHORT width, SHORT height);
 	void DisableResizeWindow();
@@ -40,6 +43,6 @@ public:
 	void resetConsoleColor();
 	void consoleInit();
 
-	//void DrawRectangle(Position pos, int width, int height, Color color);
+	// Draw functions
 	void DrawRectangle(double posX, double posY, int width, int height, Color color, const char c);
 };

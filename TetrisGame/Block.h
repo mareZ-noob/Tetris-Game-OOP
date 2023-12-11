@@ -18,25 +18,30 @@ private:
 	int colOffset;
 	char symbol;
 public:
+	// Public attributes
 	int id;
 	map<int, vector<Position>> cells;
 
+	// Constructor and destructor
 	Block();
 	~Block();
 
+	// Getters and setters
 	void setSymbol(char symbol);
 	char getSymbol() const;
 	int getCellSize() const;
 
+	// Public methods
 	void Draw();
 	void Move(int rows, int cols);
 	vector<Position> getCellsPositions();
-	void Rotate();
-	void disRotate();
+	void rightRotate();
+	void leftRotate();
 };
 
 class IBlock : public Block {
 public:
+	// Constructor and destructor
 	IBlock() {
 		id = 1;
 		setSymbol('I');
@@ -51,6 +56,7 @@ public:
 
 class JBlock : public Block {
 public:
+	// Constructor and destructor
 	JBlock() {
 		id = 2;
 		setSymbol('J');
@@ -65,6 +71,7 @@ public:
 
 class LBlock : public Block {
 public:
+	// Constructor and destructor
 	LBlock() {
 		id = 3;
 		setSymbol('L');
@@ -79,6 +86,7 @@ public:
 
 class OBlock : public Block {
 public:
+	// Constructor and destructor
 	OBlock() {
 		id = 4;
 		setSymbol('O');
@@ -90,6 +98,7 @@ public:
 
 class SBlock : public Block {
 public: 
+	// Constructor and destructor
 	SBlock() {
 		id = 5;
 		setSymbol('S');
@@ -104,6 +113,7 @@ public:
 
 class TBlock : public Block {
 public: 
+	// Constructor and destructor
 	TBlock() {
 		id = 6;
 		setSymbol('T');
@@ -118,6 +128,7 @@ public:
 
 class ZBlock : public Block {
 public: 
+	// Constructor and destructor
 	ZBlock() {
 		id = 7;
 		setSymbol('Z');

@@ -6,7 +6,7 @@ Game::Game() {
 	currentBlock = getRandomBlock();
 	nextBlock = getRandomBlock();
 	score = 0;
-	level = 1;
+	mode = 1;
 	gameOver = false;
 }
 
@@ -19,6 +19,13 @@ vector<Block> Game::getBlocks() const {
 	return this->allBlocks;
 }
 
+int Game::getMode() const {
+	return this->mode;
+}
+
+void Game::setMode(int level) {
+	this->mode = level;
+}
 
 Block Game::getRandomBlock() {
 	srand(time(NULL));
@@ -33,18 +40,40 @@ void Game::handleInput() {
 		newGame();
 	}
 	switch (key) {
+		case KEY_a:
+		case KEY_A:
 		case KEY_LEFT:
 			moveLeft();
 			break;
+		case KEY_d:
+		case KEY_D:
 		case KEY_RIGHT:
 			moveRight();
 			break;
+		case KEY_s:
+		case KEY_S:
 		case KEY_DOWN:
 			moveDown();
 			break;
+		case KEY_w:
+		case KEY_W:
 		case KEY_UP:
-			rotateBlock();
+			rightRotateBlock();
 			break;
+		case KEY_e:
+		case KEY_E:
+		case KEY_SPACE:
+			leftRotateBlock();
+			break;
+	}
+}
+
+void Game::drawNextBlock() {
+	int cellSize = nextBlock.getCellSize();
+	int cellValue = nextBlock.id;
+	vector<Position> blockCells = nextBlock.getCellsPositions();
+	for (Position cell : blockCells) {
+		Screen::getInstance()->DrawRectangle(45 + 2 * cell.getCol(), 15 + cell.getRow(), cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
 	}
 }
 
@@ -52,12 +81,15 @@ void Game::gameDisplay() {
 	Screen::getInstance()->clearScreen();
 	grid.drawGrid();
 	currentBlock.Draw();
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (grid.grid[i][j] != 0) {
-				int cellValue = grid.grid[i][j];
-				int cellSize = currentBlock.getCellSize();
-				Screen::getInstance()->DrawRectangle(COL + 2 * j, ROW + i, cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
+	drawNextBlock();
+	if (mode == 1) {
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (grid.grid[i][j] != 0) {
+					int cellValue = grid.grid[i][j];
+					int cellSize = currentBlock.getCellSize();
+					Screen::getInstance()->DrawRectangle(COL + 2 * j, ROW + i, cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
+				}
 			}
 		}
 	}
@@ -91,11 +123,20 @@ void Game::moveDown() {
 	}
 }
 
-void Game::rotateBlock() {
+void Game::rightRotateBlock() {
 	if (!gameOver) {
-		currentBlock.Rotate();
+		currentBlock.rightRotate();
 		if (verticalCollision() || horizontalCollision() == false) {
-			currentBlock.disRotate();
+			currentBlock.leftRotate();
+		}
+	}
+}
+
+void Game::leftRotateBlock() {
+	if (!gameOver) {
+		currentBlock.leftRotate();
+		if (verticalCollision() || horizontalCollision() == false) {
+			currentBlock.rightRotate();
 		}
 	}
 }
@@ -137,7 +178,7 @@ void Game::disableBlock() {
 }
 
 void Game::updateScore(int rowsDestroy) {
-	score += rowsDestroy * 100;
+	score += rowsDestroy * 10;
 }
 
 bool Game::checkWin() {
@@ -149,7 +190,6 @@ void Game::newGame() {
 	blocks = getBlocks();
 	currentBlock = getRandomBlock();
 	nextBlock = getRandomBlock();
-	level++;
 	score = 0;
 	gameOver = false;
 }

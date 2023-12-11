@@ -129,8 +129,6 @@ void Screen::consoleInit() {
     Screen::ShowScrollbar(0);
     Screen::DisableResizeWindow();
     Screen::DisableCtrButton(0, 1, 1);
-    HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-    SetConsoleActiveScreenBuffer(hConsole);
 }
 
 void Screen::DrawRectangle(double posX, double posY, int width, int height, Color color, const char c) {

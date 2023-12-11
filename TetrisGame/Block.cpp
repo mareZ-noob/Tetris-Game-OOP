@@ -46,14 +46,14 @@ vector<Position> Block::getCellsPositions() {
 	return move;
 }
 
-void Block::Rotate() {
+void Block::rightRotate() {
 	rotationState++;
 	if (rotationState == cells.size()) {
 		rotationState = 0;
 	}
 }
 
-void Block::disRotate() {
+void Block::leftRotate() {
 	rotationState--;
 	if (rotationState == -1) {
 		rotationState = cells.size() - 1;
