@@ -141,3 +141,51 @@ void Screen::DrawRectangle(double posX, double posY, int width, int height, Colo
     }
     Color::getInstance()->consoleColor(Color::BLACK, Color::WHITE);
 }
+
+void Screen::drawBorder() {
+    Color::getInstance()->consoleTextColor(Color::YELLOW);
+    Screen::DrawRectangle(0, 0, 118, 34, Color(Color::BLACK, Color::YELLOW), char(179));
+}
+
+void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text) {
+    Color::getInstance()->consoleColor(color, textColor);
+    for (int iy = y + 1; iy <= y + h - 1; iy++)
+    {
+        for (int ix = x + 1; ix <= x + w - 1; ix++)
+        {
+            moveCursor(ix, iy);
+            cout << " ";
+        }
+    }
+
+    moveCursor(x + 1, y + 1);
+    Color::getInstance()->consoleTextColor(textColor);
+    cout << text;
+
+    Color::getInstance()->consoleColor(color, textColor);
+    Color::getInstance()->consoleTextColor(buttonColor);
+    if (h <= 1 || w <= 1)
+        return;
+    for (int ix = x; ix <= x + w; ix++)
+    {
+        moveCursor(ix, y);
+        cout << char(196);
+        moveCursor(ix, y + h);
+        cout << char(196);
+    }
+    for (int iy = y; iy <= y + h; iy++)
+    {
+        moveCursor(x, iy);
+        cout << char(179);
+        moveCursor(x + w, iy);
+        cout << char(179);
+    }
+    moveCursor(x, y);
+    cout << char(218);
+    moveCursor(x + w, y);
+    cout << char(191);
+    moveCursor(x, y + h);
+    cout << char(192);
+    moveCursor(x + w, y + h);
+    cout << char(217);
+}

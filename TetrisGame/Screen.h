@@ -45,4 +45,6 @@ public:
 
 	// Draw functions
 	void DrawRectangle(double posX, double posY, int width, int height, Color color, const char c);
+	void drawBorder();
+	void Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text);
 };
