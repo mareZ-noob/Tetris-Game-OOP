@@ -3,9 +3,9 @@
 #include <vector>
 #include <Windows.h>
 
-using std::vector;
-using std::mutex;
 using std::lock_guard;
+using std::mutex;
+using std::vector;
 
 class Color {
 private:

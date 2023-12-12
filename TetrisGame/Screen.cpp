@@ -72,7 +72,7 @@ void Screen::moveCursor(const double posX, const double posY) {
     SetConsoleCursorPosition(console, CursorPosition);
 }
 
-void Screen::goToXY(double posX, double posY) {
+void Screen::goToXY(const int posX, const int posY) {
     COORD CursorPosition;
     CursorPosition.X = posX;
     CursorPosition.Y = posY;
@@ -97,28 +97,22 @@ void Screen::clearScreen() {
     COORD homeCoords = { 0, 0 };
 
     hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hStdOut == INVALID_HANDLE_VALUE)
+    if (hStdOut == INVALID_HANDLE_VALUE) {
         return;
+    }
 
-    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))
+    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) {
         return;
+    }
     cellCount = csbi.dwSize.X * csbi.dwSize.Y;
 
-    if (!FillConsoleOutputCharacter(
-        hStdOut,
-        (TCHAR)' ',
-        cellCount,
-        homeCoords,
-        &count))
+    if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ', cellCount, homeCoords, &count)) {
         return;
+    }
     
-    if (!FillConsoleOutputAttribute(
-        hStdOut,
-        csbi.wAttributes,
-        cellCount,
-        homeCoords,
-        &count))
+    if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, cellCount, homeCoords, &count)) {
         return;
+    }
 
     SetConsoleCursorPosition(hStdOut, homeCoords);
 }
@@ -153,14 +147,12 @@ void Screen::drawRectangle(int left, int top, int width, int height) {
     int i;
     goToXY(left, top);
     putchar(218);
-    for (i = 0; i < width; i++)
-    {
+    for (i = 0; i < width; i++) {
         putchar(196);
     }
     putchar(191);
 
-    for (i = 0; i < height; i++)
-    {
+    for (i = 0; i < height; i++) {
         goToXY(left, top + i + 1);
         putchar(179);
         goToXY(left + width + 1, top + i + 1);
@@ -169,8 +161,7 @@ void Screen::drawRectangle(int left, int top, int width, int height) {
 
     goToXY(left, top + i);
     putchar(192);
-    for (i = 0; i < width; i++)
-    {
+    for (i = 0; i < width; i++) {
         putchar(196);
     }
     putchar(217);
@@ -183,10 +174,8 @@ void Screen::drawBorder() {
 
 void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text) {
     Color::getInstance()->consoleColor(color, textColor);
-    for (int iy = y + 1; iy <= y + h - 1; iy++)
-    {
-        for (int ix = x + 1; ix <= x + w - 1; ix++)
-        {
+    for (int iy = y + 1; iy <= y + h - 1; iy++) {
+        for (int ix = x + 1; ix <= x + w - 1; ix++) {
             goToXY(ix, iy);
             cout << " ";
         }
@@ -198,22 +187,24 @@ void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, 
 
     Color::getInstance()->consoleColor(color, textColor);
     Color::getInstance()->consoleTextColor(buttonColor);
-    if (h <= 1 || w <= 1)
+    if (h <= 1 || w <= 1) {
         return;
-    for (int ix = x; ix <= x + w; ix++)
-    {
+    }
+
+    for (int ix = x; ix <= x + w; ix++) {
         goToXY(ix, y);
         cout << char(196);
         goToXY(ix, y + h);
         cout << char(196);
     }
-    for (int iy = y; iy <= y + h; iy++)
-    {
+
+    for (int iy = y; iy <= y + h; iy++) {
         goToXY(x, iy);
         cout << char(179);
         goToXY(x + w, iy);
         cout << char(179);
     }
+
     goToXY(x, y);
     cout << char(218);
     goToXY(x + w, y);

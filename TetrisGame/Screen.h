@@ -37,7 +37,7 @@ public:
 	void ShowScrollbar(BOOL Show);
 	void showCursor(bool visible);
 	void moveCursor(const double posX, const double posY);
-	void goToXY(double posX, double posY);
+	void goToXY(const int posX, const int posY);
 	void disableMouseInput();
 	void consoleTitle();
 	void clearScreen();

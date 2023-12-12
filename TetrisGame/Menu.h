@@ -1,10 +1,17 @@
 #pragma once
-#include <Windows.h>
-#include "Screen.h"
-#include "Constant.h"
-#include "Color.h"
-#include "Graphic.h"
 #include <conio.h>
+#include <Windows.h>
+
+#include "Color.h"
+#include "Constant.h"
+#include "Graphic.h"
+#include "Screen.h"
+
+using std::cout;
+using std::endl;
+using std::lock_guard;
+using std::mutex;
+using std::string;
 
 class Menu {
 private:
@@ -18,7 +25,7 @@ private:
     int textColor;
     int buttonColor;
     int backgroundColor;
-    std::string email;
+    string email;
     int selection;
 public:
     // Constructor and destructor
@@ -31,7 +38,7 @@ public:
 
     // Console functions
     void quit();
-    //void login(std::string& email);
+    //void login(string& email);
     void selectionMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
     void printMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
     void MainMenu();

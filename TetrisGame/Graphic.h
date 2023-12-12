@@ -1,10 +1,16 @@
 #pragma once
-#include <Windows.h>
-#include "Screen.h"
-#include "Constant.h"
-#include "Color.h"
 #include <fstream>
 #include <string>
+
+#include "Color.h"
+#include "Constant.h"
+#include "Screen.h"
+#include <Windows.h>
+
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::string;
 
 class Graphic {
 private:
@@ -20,7 +26,7 @@ public:
     static void deleteInstance();
 
     // Console functions
-    void artAtPosition(std::string fileName, int backgroundColor, int textColor, int x, int y);
-    void readFileAtPosition(std::string fileName, int x, int y, int backgroundColor, int textColor);
+    void artAtPosition(string fileName, int backgroundColor, int textColor, int x, int y);
+    void readFileAtPosition(string fileName, int x, int y, int backgroundColor, int textColor);
     void tetris1(int x, int y);
 };
