@@ -28,7 +28,7 @@ private:
 	Block currentBlock;
 	Block nextBlock;
 	Grid grid;
-	int mode; // 1: easy, 2: hard
+	int mode; // 1: easy, 2: medium, 3: hard, 4: very hard
 	int score;
 	bool gameOver;
 	int speed;
@@ -57,6 +57,7 @@ public:
 	void moveDown();
 	void rightRotateBlock();
 	void leftRotateBlock();
+	void dropBlock();
 
 	// Collision
 	bool verticalCollision();
@@ -67,6 +68,12 @@ public:
 	void updateScore(int rowsDestroy);
 	bool checkLose();
 	void newGame();
+
+	// Game mode
+	void easyMode();
+	void mediumMode();
+	void hardMode();
+	void veryHardMode();
 
 	// Game start
 	void runTetris();

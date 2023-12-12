@@ -1,9 +1,13 @@
 #pragma once
-#include <Windows.h>
-#include "Screen.h"
-#include "Constant.h"
-#include "Color.h"
 #include <fstream>
+#include <Windows.h>
+
+#include "Color.h"
+#include "Constant.h"
+#include "Screen.h"
+
+using std::ifstream;
+using std::string;
 
 class Graphic {
 private:
@@ -11,7 +15,7 @@ private:
     static mutex mutex_;
 
     void drawCharacter(char character, double x, double y, int textColor, int backgroundColor);
-    void drawTextFromFile(std::string fileName, int x, int y, int textColor, int backgroundColor);
+    void drawTextFromFile(string fileName, int x, int y, int textColor, int backgroundColor);
 public:
     // Constructor and destructor
     Graphic();
@@ -22,7 +26,7 @@ public:
     static void deleteInstance();
 
     // Console functions
-    void artAtPosition(std::string fileName, int textColor, int backgroundColor, int x, int y);
-    void readFileAtPosition(std::string fileName, int textColor, int backgroundColor, int x, int y);
+    void artAtPosition(string fileName, int textColor, int backgroundColor, int x, int y);
+    void readFileAtPosition(string fileName, int textColor, int backgroundColor, int x, int y);
     void pokemonBall(int x, int y);
 };

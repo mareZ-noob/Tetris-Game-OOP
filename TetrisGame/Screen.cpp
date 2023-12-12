@@ -72,6 +72,13 @@ void Screen::moveCursor(const double posX, const double posY) {
     SetConsoleCursorPosition(console, CursorPosition);
 }
 
+void Screen::gotoXY(const int posX, const int posY) {
+    COORD CursorPosition;
+	CursorPosition.X = posX;
+	CursorPosition.Y = posY;
+	SetConsoleCursorPosition(console, CursorPosition);
+}
+
 void Screen::disableMouseInput() {
     DWORD prev_mode;
     GetConsoleMode(hStdin, &prev_mode);
@@ -149,43 +156,41 @@ void Screen::drawBorder() {
 
 void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text) {
     Color::getInstance()->consoleColor(color, textColor);
-    for (int iy = y + 1; iy <= y + h - 1; iy++)
-    {
-        for (int ix = x + 1; ix <= x + w - 1; ix++)
-        {
-            moveCursor(ix, iy);
+    for (int iy = y + 1; iy <= y + h - 1; iy++) {
+        for (int ix = x + 1; ix <= x + w - 1; ix++) {
+            gotoXY(ix, iy);
             cout << " ";
         }
     }
 
-    moveCursor(x + 1, y + 1);
+    gotoXY(x + 1, y + 1);
     Color::getInstance()->consoleTextColor(textColor);
     cout << text;
 
     Color::getInstance()->consoleColor(color, textColor);
     Color::getInstance()->consoleTextColor(buttonColor);
-    if (h <= 1 || w <= 1)
+    if (h <= 1 || w <= 1) {
         return;
-    for (int ix = x; ix <= x + w; ix++)
-    {
-        moveCursor(ix, y);
+    }
+
+    for (int ix = x; ix <= x + w; ix++) {
+        gotoXY(ix, y);
         cout << char(196);
-        moveCursor(ix, y + h);
+        gotoXY(ix, y + h);
         cout << char(196);
     }
-    for (int iy = y; iy <= y + h; iy++)
-    {
-        moveCursor(x, iy);
+    for (int iy = y; iy <= y + h; iy++) {
+        gotoXY(x, iy);
         cout << char(179);
-        moveCursor(x + w, iy);
+        gotoXY(x + w, iy);
         cout << char(179);
     }
-    moveCursor(x, y);
+    gotoXY(x, y);
     cout << char(218);
-    moveCursor(x + w, y);
+    gotoXY(x + w, y);
     cout << char(191);
-    moveCursor(x, y + h);
+    gotoXY(x, y + h);
     cout << char(192);
-    moveCursor(x + w, y + h);
+    gotoXY(x + w, y + h);
     cout << char(217);
 }

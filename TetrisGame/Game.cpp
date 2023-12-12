@@ -77,10 +77,15 @@ void Game::handleInput() {
 		case KEY_UP:
 			rightRotateBlock();
 			break;
-		case KEY_e:
-		case KEY_E:
+		case KEY_x:
+		case KEY_X:
 		case KEY_SPACE:
 			leftRotateBlock();
+			break;
+		case KEY_e:
+		case KEY_E:
+		case ENTER_KEY:
+			dropBlock();
 			break;
 	}
 }
@@ -158,6 +163,26 @@ void Game::leftRotateBlock() {
 	}
 }
 
+void Game::dropBlock() {	
+	if (!gameOver) {
+		int lowestRow = 0;
+		vector<Position> blockCells = currentBlock.getCellsPositions();
+		for (Position cell : blockCells) {
+			if (cell.getRow() > lowestRow) {
+				lowestRow = cell.getRow();
+			}
+		}
+		while (true) {
+			currentBlock.Move(1, 0);
+			if (verticalCollision() || horizontalCollision() == false) {
+				currentBlock.Move(-1, 0);
+				disableBlock();
+				break;
+			}
+		}
+	}
+}
+
 bool Game::verticalCollision() {
 	vector<Position> blockCells = currentBlock.getCellsPositions();
 	for (Position cell : blockCells) {
@@ -221,12 +246,13 @@ void Game::newGame() {
 	score = 0;
 	gameOver = false;
 	mode = 1;
-	speed = 300;
+	speed = 200;
 }
 
 void Game::runTetris() {
 	Game game = Game();
-	const milliseconds updateInterval(speed);
+	game.mediumMode();
+	const milliseconds updateInterval(game.getSpeed());
 
     future<void> handleInputFuture = async(launch::async, [&game]() {
         while (true) {
@@ -246,4 +272,24 @@ void Game::runTetris() {
 			break;
 		}
     }
+}
+
+void Game::easyMode() {
+	setMode(1);
+	setSpeed(300);
+}
+
+void Game::mediumMode() {
+	setMode(1);
+	setSpeed(100);
+}
+
+void Game::hardMode() {
+	setMode(2);
+	setSpeed(300);
+}
+
+void Game::veryHardMode() {
+	setMode(2);
+	setSpeed(200);
 }

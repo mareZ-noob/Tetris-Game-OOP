@@ -27,14 +27,14 @@ void Graphic::deleteInstance() {
 }
 
 void Graphic::drawCharacter(char character, double x, double y, int textColor, int backgroundColor) {
-    Screen::getInstance()->moveCursor(x, y);
+    Screen::getInstance()->gotoXY(x, y);
     Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
     Color::getInstance()->consoleTextColor(Color::BLACK);
     cout << character;
 }
 
-void Graphic::drawTextFromFile(std::string fileName, int x, int y, int textColor, int backgroundColor) {
-    std::ifstream file(fileName);
+void Graphic::drawTextFromFile(string fileName, int x, int y, int textColor, int backgroundColor) {
+    ifstream file(fileName);
     if (file.is_open()) {
         char c;
         int posX = x, posY = y;
@@ -52,55 +52,47 @@ void Graphic::drawTextFromFile(std::string fileName, int x, int y, int textColor
     }
 }
 
-void Graphic::artAtPosition(std::string fileName, int textColor, int backgroundColor, int x, int y) {
+void Graphic::artAtPosition(string fileName, int textColor, int backgroundColor, int x, int y) {
     drawTextFromFile(fileName, x, y, textColor, backgroundColor);
 }
 
-void Graphic::readFileAtPosition(std::string fileName, int textColor, int backgroundColor, int x, int y) {
+void Graphic::readFileAtPosition(string fileName, int textColor, int backgroundColor, int x, int y) {
     drawTextFromFile(fileName, x, y, textColor, backgroundColor);
 }
 
 void Graphic::pokemonBall(int x, int y) {
-    {
-        std::ifstream file("ascii_art\\pokemonball.txt");
-        int backgroundColor = 0;
-        if (file.is_open())
-        {
-            char c;
-            int posX = x, posY = y;
-            while (file.get(c))
-            {
-                if (c == '7')
-                {
-                    Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
-                    Screen::getInstance()->moveCursor(posX, posY);
-                    Color::getInstance()->consoleTextColor(Color::BLACK);
-                    cout << c;
-                    posX++;
-                }
-                else if (c == 'J')
-                {
-                    Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
-                    Screen::getInstance()->moveCursor(posX, posY);
-                    Color::getInstance()->consoleTextColor(Color::BLACK);
-                    cout << c;
-                    posX++;
-                }
-                else if (c == '\n')
-                {
-                    posY++;
-                    posX = x;
-                }
-                else
-                {
-                    Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
-                    Screen::getInstance()->moveCursor(posX, posY);
-                    Color::getInstance()->consoleTextColor(Color::BLACK);
-                    cout << c;
-                    posX++;
-                }
+    ifstream file("ascii_art\\pokemonball.txt");
+    int backgroundColor = 0;
+    if (file.is_open()) {
+        char c;
+        int posX = x, posY = y;
+        while (file.get(c)) {
+            if (c == '7') {
+                Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
+                Screen::getInstance()->gotoXY(posX, posY);
+                Color::getInstance()->consoleTextColor(Color::BLACK);
+                cout << c;
+                posX++;
             }
-            file.close();
+            else if (c == 'J') {
+                Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
+                Screen::getInstance()->gotoXY(posX, posY);
+                Color::getInstance()->consoleTextColor(Color::BLACK);
+                cout << c;
+                posX++;
+            }
+            else if (c == '\n') {
+                posY++;
+                posX = x;
+            }
+            else {
+                Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
+                Screen::getInstance()->gotoXY(posX, posY);
+                Color::getInstance()->consoleTextColor(Color::BLACK);
+                cout << c;
+                posX++;
+            }
         }
+        file.close();
     }
 }

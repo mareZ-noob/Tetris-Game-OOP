@@ -1,9 +1,12 @@
 #pragma once
-#include <Windows.h>
-#include "Screen.h"
-#include "Constant.h"
-#include "Color.h"
 #include <conio.h>
+#include <Windows.h>
+
+#include "Color.h"
+#include "Constant.h"
+#include "Screen.h"
+
+using std::string;
 
 class Menu {
 private:
@@ -17,7 +20,7 @@ private:
     int textColor;
     int buttonColor;
     int backgroundColor;
-    std::string email;
+    string email;
     int selection;
 public:
     // Constructor and destructor
