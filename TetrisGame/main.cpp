@@ -6,10 +6,10 @@
 int main() {
 	Screen::getInstance()->consoleInit();
 	Color::getInstance()->consoleColor(Color::BLACK, Color::WHITE);
-	Game game = Game();
-	game.runTetris();
-	/*Menu menu = Menu();
-	menu.MainMenu();*/
+	/*Game game = Game();
+	game.runTetris();*/
+	Menu menu = Menu();
+	menu.MainMenu();
 
 	return 0;
 }

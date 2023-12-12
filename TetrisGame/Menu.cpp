@@ -26,10 +26,11 @@ void Menu::deleteInstance() {
     }
 }
 
-void quit() {
+void Menu::quit()
+{
     Screen::getInstance()->clearScreen();
     //pikachu_bye(4, 4);
-    //read_file_at_pos("ascii_art\\goodbye.txt", CYAN, BLACK, 46, 10);
+    Graphic::getInstance()->readFileAtPosition("static\\ascii\\lose.txt", 20, 10, Color::BLACK, Color::CYAN);
     Color::getInstance()->consoleColor(Color::BLACK, Color::BLACK);
     Sleep(5000);
     Screen::getInstance()->clearScreen();
@@ -84,114 +85,148 @@ void quit() {
 void Menu::selectionMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor) {
     int Color = textColor;
 
-    if (selection == 1) {
-        Color::getInstance()->consoleTextColor(Color::RED);
-        Screen::getInstance()->Button(x, y, w, h, textColor, buttonColor, backgroundColor, "     > LOGIN <");
+    if (selection == 1)
+    {
+        Screen::getInstance()->Button(x, y, w, h, Color::RED, buttonColor, backgroundColor, "  >> PLAY GAME <<");
     }
-    else {
-        Screen::getInstance()->Button(x, y, w, h, Color, buttonColor, backgroundColor, "       LOGIN");
-    }
-
-    if (selection == 2) {
-        Color::getInstance()->consoleTextColor(Color::RED);
-        Screen::getInstance()->Button(x, y + 2, w, h, textColor, buttonColor, backgroundColor, "  > HOW TO PLAY <");
-        Screen::getInstance()->gotoXY(x, y + 2);
-        cout << char(195);
-        Screen::getInstance()->gotoXY(x + w, y + 2);
-        cout << char(180);
-    }
-    else {
-        Screen::getInstance()->Button(x, y + 2, w, h, Color, buttonColor, backgroundColor, "    HOW TO PLAY");
-        Screen::getInstance()->gotoXY(x, y + 2);
-        cout << char(195);
-        Screen::getInstance()->gotoXY(x + w, y + 2);
-        cout << char(180);
+    else
+    {
+        Screen::getInstance()->Button(x, y, w, h, Color, buttonColor, backgroundColor, "     PLAY GAME");
     }
 
-    if (selection == 3) {
-        Color::getInstance()->consoleTextColor(Color::RED);
-        Screen::getInstance()->Button(x, y + 4, w, h, textColor, buttonColor, backgroundColor, "    > CREDITS <");
-        Screen::getInstance()->gotoXY(x, y + 4);
+    if (selection == 2)
+    {
+        Screen::getInstance()->Button(x, y + 2, w, h, Color::RED, buttonColor, backgroundColor, " >> HIGH SCORES <<");
+        Screen::getInstance()->Screen::goToXY(x, y + 2);
         cout << char(195);
-        Screen::getInstance()->gotoXY(x + w, y + 4);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 2);
         cout << char(180);
     }
-    else {
-        Screen::getInstance()->Button(x, y + 4, w, h, Color, buttonColor, backgroundColor, "      CREDITS");
-        Screen::getInstance()->gotoXY(x, y + 4);
+    else
+    {
+        Screen::getInstance()->Button(x, y + 2, w, h, Color, buttonColor, backgroundColor, "    HIGH SCORES");
+        Screen::getInstance()->Screen::goToXY(x, y + 2);
         cout << char(195);
-        Screen::getInstance()->gotoXY(x + w, y + 4);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 2);
         cout << char(180);
     }
 
-    if (selection == 4) {
-        Color::getInstance()->consoleTextColor(Color::RED);
-        Screen::getInstance()->Button(x, y + 6, w, h, textColor, buttonColor, backgroundColor, "     > EXIT <");
-        Screen::getInstance()->gotoXY(x, y + 6);
+    if (selection == 3)
+    {
+        Screen::getInstance()->Button(x, y + 4, w, h, Color::RED, buttonColor, backgroundColor, " >> INSTRUCTION <<");
+        Screen::getInstance()->Screen::goToXY(x, y + 4);
         cout << char(195);
-        Screen::getInstance()->gotoXY(x + w, y + 6);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 4);
         cout << char(180);
     }
-    else {
-        Screen::getInstance()->Button(x, y + 6, w, h, Color, buttonColor, backgroundColor, "       EXIT");
-        Screen::getInstance()->gotoXY(x, y + 6);
+    else
+    {
+        Screen::getInstance()->Button(x, y + 4, w, h, Color, buttonColor, backgroundColor, "    INSTRUCTION");
+        Screen::getInstance()->Screen::goToXY(x, y + 4);
         cout << char(195);
-        Screen::getInstance()->gotoXY(x + w, y + 6);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 4);
+        cout << char(180);
+    }
+
+    if (selection == 4)
+    {
+        Screen::getInstance()->Button(x, y + 6, w, h, Color::RED, buttonColor, backgroundColor, "   >> CREDITS <<");
+        Screen::getInstance()->Screen::goToXY(x, y + 6);
+        cout << char(195);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 6);
+        cout << char(180);
+    }
+    else
+    {
+        Screen::getInstance()->Button(x, y + 6, w, h, Color, buttonColor, backgroundColor, "      CREDITS");
+        Screen::getInstance()->Screen::goToXY(x, y + 6);
+        cout << char(195);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 6);
+        cout << char(180);
+    }
+
+    if (selection == 5)
+    {
+        Screen::getInstance()->Button(x, y + 8, w, h, Color::RED, buttonColor, backgroundColor, "  >> QUIT GAME <<");
+        Screen::getInstance()->Screen::goToXY(x, y + 8);
+        cout << char(195);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 8);
+        cout << char(180);
+    }
+    else
+    {
+        Screen::getInstance()->Button(x, y + 8, w, h, Color, buttonColor, backgroundColor, "     QUIT GAME");
+        Screen::getInstance()->Screen::goToXY(x, y + 8);
+        cout << char(195);
+        Screen::getInstance()->Screen::goToXY(x + w, y + 8);
         cout << char(180);
     }
 }
 
 void Menu::printMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor) {
+    //Color::getInstance()->consoleTextColor(Color::LIGHTGREEN);
+    Graphic::getInstance()->artAtPosition("static\\ascii\\Tetris Game.txt", 20, 3, Color::BLACK, Color::YELLOW);
+    //Graphic::getInstance()->tetris1(70, 10);
     Screen::getInstance()->drawBorder();
-    /*art_at_pos("ascii_art\\pikachu.txt", Color::YELLOW, backgroundColor, 21, 1);
-    pokemon_ball(4, 15);
-    pikachu_small(70, 12);*/
     selectionMenu(selection, x, y, w, h, textColor, buttonColor, backgroundColor);
 }
 
-void Menu::MainMenu() {
-    int x = 50;
-    int y = 24;
+void Menu::MainMenu()
+{
+    int x = 42;
+    int y = 20;
     int w = 20;
     int h = 2;
-    int textColor = Color::CYAN;
-    int buttonColor = Color::BLUE;
+    int textColor = Color::WHITE;
+    int buttonColor = Color::LIGHTCYAN;
     int backgroundColor = Color::BLACK;
     string email;
     Screen::getInstance()->showCursor(0);
     int selection = 1;
     printMenu(selection, x, y, w, h, textColor, buttonColor, backgroundColor);
 
-    while (true) {
+    while (true)
+    {
         char c = _getch();
 
-        if (c == KEY_w || c == KEY_W || c == KEY_UP) { // move up
+        if (c == KEY_w || c == KEY_W)
+        { // move up
             selection--;
-            if (selection == 0) {
-                selection = 4;
+            if (selection == 0)
+            {
+                selection = 5;
             }
             selectionMenu(selection, x, y, w, h, textColor, buttonColor, backgroundColor);
         }
-        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { // move down
+        else if (c == KEY_s || c == KEY_S)
+        { // move down
             selection++;
-            if (selection == 5) {
+            if (selection == 6)
+            {
                 selection = 1;
             }
             selectionMenu(selection, x, y, w, h, textColor, buttonColor, backgroundColor);
         }
-        else if (c == ENTER_KEY || c == '\n') { // pressed enter
-            switch (selection) {
+        else if (c == ENTER_KEY || c == '\n')
+        { // pressed enter
+            switch (selection)
+            {
             case 1:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
+                //login(email);
                 break;
+
             case 2:
                 Screen::getInstance();
                 //HowToPlay();
-                while (true) {
-                    if (_kbhit()) {
+                while (true)
+                {
+                    if (_kbhit())
+                    {
                         char key = _getch();
-                        if (key == ESC_KEY) {
+                        if (key == ESC_KEY)
+                        {
                             Screen::getInstance()->clearScreen();
                             return MainMenu();
                             break;
@@ -199,16 +234,20 @@ void Menu::MainMenu() {
                     }
                 }
                 break;
+
             case 3:
                 Screen::getInstance();
                 /*art_at_pos("ascii_art\\credit.txt", LIGHT_GREEN, backgroundColor, 36, 2);
                 read_file_at_pos("ascii_art\\content.txt", WHITE, backgroundColor, 4, 12);*/
                 Color::getInstance()->consoleTextColor(Color::LIGHTGREEN);
                 Screen::getInstance()->DrawRectangle(5, 10, 108, 20, Color(Color::BLACK, Color::YELLOW), char(179));
-                while (true) {
-                    if (_kbhit()) {
+                while (true)
+                {
+                    if (_kbhit())
+                    {
                         char key = _getch();
-                        if (key == ESC_KEY) {
+                        if (key == ESC_KEY)
+                        {
                             Screen::getInstance()->clearScreen();
                             return MainMenu();
                             break;
@@ -216,7 +255,14 @@ void Menu::MainMenu() {
                     }
                 }
                 break;
+
             case 4:
+                Screen::getInstance()->clearScreen();
+                Screen::getInstance()->drawBorder();
+                quit();
+                break;
+
+            case 5:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
                 quit();

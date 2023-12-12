@@ -72,11 +72,11 @@ void Screen::moveCursor(const double posX, const double posY) {
     SetConsoleCursorPosition(console, CursorPosition);
 }
 
-void Screen::gotoXY(const int posX, const int posY) {
+void Screen::goToXY(double posX, double posY) {
     COORD CursorPosition;
-	CursorPosition.X = posX;
-	CursorPosition.Y = posY;
-	SetConsoleCursorPosition(console, CursorPosition);
+    CursorPosition.X = posX;
+    CursorPosition.Y = posY;
+    SetConsoleCursorPosition(console, CursorPosition);
 }
 
 void Screen::disableMouseInput() {
@@ -149,48 +149,77 @@ void Screen::DrawRectangle(double posX, double posY, int width, int height, Colo
     Color::getInstance()->consoleColor(Color::BLACK, Color::WHITE);
 }
 
+void Screen::drawRectangle(int left, int top, int width, int height) {
+    int i;
+    goToXY(left, top);
+    putchar(218);
+    for (i = 0; i < width; i++)
+    {
+        putchar(196);
+    }
+    putchar(191);
+
+    for (i = 0; i < height; i++)
+    {
+        goToXY(left, top + i + 1);
+        putchar(179);
+        goToXY(left + width + 1, top + i + 1);
+        putchar(179);
+    }
+
+    goToXY(left, top + i);
+    putchar(192);
+    for (i = 0; i < width; i++)
+    {
+        putchar(196);
+    }
+    putchar(217);
+}
+
 void Screen::drawBorder() {
-    Color::getInstance()->consoleTextColor(Color::YELLOW);
-    Screen::DrawRectangle(0, 0, 118, 34, Color(Color::BLACK, Color::YELLOW), char(179));
+    Color::getInstance()->consoleTextColor(Color::LIGHTCYAN);
+    drawRectangle(0, 0, 105, 35);
 }
 
 void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text) {
     Color::getInstance()->consoleColor(color, textColor);
-    for (int iy = y + 1; iy <= y + h - 1; iy++) {
-        for (int ix = x + 1; ix <= x + w - 1; ix++) {
-            gotoXY(ix, iy);
+    for (int iy = y + 1; iy <= y + h - 1; iy++)
+    {
+        for (int ix = x + 1; ix <= x + w - 1; ix++)
+        {
+            goToXY(ix, iy);
             cout << " ";
         }
     }
 
-    gotoXY(x + 1, y + 1);
+    goToXY(x + 1, y + 1);
     Color::getInstance()->consoleTextColor(textColor);
     cout << text;
 
     Color::getInstance()->consoleColor(color, textColor);
     Color::getInstance()->consoleTextColor(buttonColor);
-    if (h <= 1 || w <= 1) {
+    if (h <= 1 || w <= 1)
         return;
-    }
-
-    for (int ix = x; ix <= x + w; ix++) {
-        gotoXY(ix, y);
+    for (int ix = x; ix <= x + w; ix++)
+    {
+        goToXY(ix, y);
         cout << char(196);
-        gotoXY(ix, y + h);
+        goToXY(ix, y + h);
         cout << char(196);
     }
-    for (int iy = y; iy <= y + h; iy++) {
-        gotoXY(x, iy);
+    for (int iy = y; iy <= y + h; iy++)
+    {
+        goToXY(x, iy);
         cout << char(179);
-        gotoXY(x + w, iy);
+        goToXY(x + w, iy);
         cout << char(179);
     }
-    gotoXY(x, y);
+    goToXY(x, y);
     cout << char(218);
-    gotoXY(x + w, y);
+    goToXY(x + w, y);
     cout << char(191);
-    gotoXY(x, y + h);
+    goToXY(x, y + h);
     cout << char(192);
-    gotoXY(x + w, y + h);
+    goToXY(x + w, y + h);
     cout << char(217);
 }

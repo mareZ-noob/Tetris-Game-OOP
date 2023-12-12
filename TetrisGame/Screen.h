@@ -37,7 +37,7 @@ public:
 	void ShowScrollbar(BOOL Show);
 	void showCursor(bool visible);
 	void moveCursor(const double posX, const double posY);
-	void gotoXY(const int posX, const int posY);
+	void goToXY(double posX, double posY);
 	void disableMouseInput();
 	void consoleTitle();
 	void clearScreen();
@@ -46,6 +46,7 @@ public:
 
 	// Draw functions
 	void DrawRectangle(double posX, double posY, int width, int height, Color color, const char c);
+	void drawRectangle(int left, int top, int width, int height);
 	void drawBorder();
 	void Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text);
 };
