@@ -1,4 +1,4 @@
-#include "Menu.h"
+﻿#include "Menu.h"
 
 Menu::Menu() {
 
@@ -36,50 +36,35 @@ void Menu::quit() {
     exit(1);
 }
 
-//void login(string& email)
-//{
-//    login_icon(41, 3);
-//
-//    TextColor(OCEAN);
-//    drawRectangle(40, 18, 40, 10);
-//    button(40, 18, 41, 2, LIGHT_YELLOW, OCEAN, BLACK, " Enter your email to continue");
-//    moveCursor(40, 20);
-//    cout << char(195);
-//    moveCursor(81, 20);
-//    cout << char(180);
-//
-//    moveCursor(42, 22);
-//    TextColor(LIGHT_YELLOW);
-//    printf("Email: ");
-//    moveCursor(48, 22);
-//    button(48, 21, 30, 2, LIGHT_WHITE, OCEAN, BLACK, " ");
-//    moveCursor(43, 24);
-//    TextColor(LIGHT_GREEN);
-//    printf("(Using \"@clc.fitus.edu.vn\" to login)");
-//    moveCursor(49, 26);
-//    TextColor(LIGHT_YELLOW);
-//    printf("Press ENTER to continue");
-//
-//    moveCursor(49, 22);
-//    TextColor(LIGHT_WHITE);
-//    showCursor(1);
-//    getline(cin, email);
-//
-//    if (verify(email))
-//    {
-//        clearScreen();
-//        LoginMenu();
-//    }
-//    else
-//    {
-//        TextColor(RED);
-//        moveCursor(51, 30);
-//        printf("INVALID EMAIL ADDRESS!");
-//        moveCursor(47, 31);
-//        printf("Please enter your email again");
-//        return login(email);
-//    }
-//}
+void Menu::PlayGame() {
+    Color::getInstance()->consoleTextColor(Color::BROWN);
+    Screen::getInstance()->drawRectangle(32, 12, 40, 12);
+    Screen::getInstance()->Button(33, 13, 19, 2, Color::LIGHTGREEN, Color::BLACK, Color::BLACK, " ENTER YOUR NAME:");
+
+    //Color::getInstance()->consoleTextColor(Color::WHITE);
+    //Screen::getInstance()->goToXY(48, 22);
+    Screen::getInstance()->Button(36, 16, 32, 2, Color::WHITE, Color::BROWN, Color::BLACK, " ");
+    Screen::getInstance()->goToXY(41, 23);
+    Color::getInstance()->consoleTextColor(Color::YELLOW);
+    printf("Press ENTER to continue");
+
+    Screen::getInstance()->goToXY(37, 17);
+    Color::getInstance()->consoleTextColor(Color::WHITE);
+    Screen::getInstance()->showCursor(1);
+    std::string PlayerName;
+    getline(std::cin, PlayerName);
+
+    if (!PlayerName.empty()) {
+        Screen::getInstance()->clearScreen();
+        //Game ở đây
+    }
+    else {
+        Color::getInstance()->consoleTextColor(Color::RED);
+        Screen::getInstance()->goToXY(41, 21);
+        printf("Please enter your name!");
+        return Menu::PlayGame();
+    }
+}
 
 void Menu::selectionMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor) {
     int Color = textColor;
@@ -193,7 +178,7 @@ void Menu::MainMenu() {
             case 1:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //login(email);
+                Menu::PlayGame();
                 break;
             case 2:
                 Screen::getInstance();

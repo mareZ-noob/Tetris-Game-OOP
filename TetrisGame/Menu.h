@@ -25,7 +25,6 @@ private:
     int textColor;
     int buttonColor;
     int backgroundColor;
-    string email;
     int selection;
 public:
     // Constructor and destructor
@@ -38,7 +37,7 @@ public:
 
     // Console functions
     void quit();
-    //void login(string& email);
+    void PlayGame();
     void selectionMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
     void printMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
     void MainMenu();
