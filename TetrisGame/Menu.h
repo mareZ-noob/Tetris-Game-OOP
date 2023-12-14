@@ -53,10 +53,25 @@ public:
     static void deleteInstance();
 
     // Console functions
-    void quit();
-    void PlayGame();
-    void selectionMenu();
-    void printMainMenu();
+    //MENU 1
     void MainMenu();
-    void ClassicModernMode();
+    void selectionMenu1();
+    void printMainMenu();
+    void PlayGame();
+    void quit();
+
+    //MENU 2
+    void ClassicModernMenu();
+    void selectionMenu2();
+    void printClassicModernMenu();
+   
+    //MENU 3
+    void ClassicModeMenu();
+    void selectionMenu3();
+    void printClassicModeMenu();
+
+    //MENU 4
+    void ModernModeMenu();
+    void selectionMenu4();
+    void printModernModeMenu();
 };
