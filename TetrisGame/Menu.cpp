@@ -137,7 +137,7 @@ void Menu::selectionMenu(int selection, int x, int y, int w, int h, int textColo
     }
 }
 
-void Menu::printMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor) {
+void Menu::printMainMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor) {
     //Color::getInstance()->consoleTextColor(Color::LIGHTGREEN);
     Graphic::getInstance()->artAtPosition("static\\ascii\\TetrisGame.txt", 20, 3, Color::BLACK, Color::YELLOW);
     //Graphic::getInstance()->tetris1(70, 10);
