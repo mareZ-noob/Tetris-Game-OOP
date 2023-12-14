@@ -63,8 +63,10 @@ bool Grid::isRowFull(int row) {
 	return true;
 }
 
-void Grid::clearRow(int row) {
+void Grid::clearRow(int row, int& bonus) {
+	bonus = 0;
 	for (int column = 0; column < numCols; column++) {
+		bonus += grid[row][column];
 		grid[row][column] = 0;
 	}
 }
@@ -76,16 +78,19 @@ void Grid::moveRowDown(int row, int numRows) {
 	}
 }
 
-int Grid::clearRows() {
+pair<int, int> Grid::clearRows() {
 	int completed = 0;
+	int bonus = 0;
 	for (int row = numRows - 1; row >= 0; row--) {
 		if (isRowFull(row)) {
-			clearRow(row);
+			int score = 0;
+			clearRow(row, score);
+			bonus += score;
 			completed++;
 		}
 		else if (completed > 0) {
 			moveRowDown(row, completed);
 		}
 	}
-	return completed;
+	return { completed, bonus };
 }

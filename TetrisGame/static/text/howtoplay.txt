@@ -1,8 +1,8 @@
         - Right: d/D/Right Key  - RightRotate: w/W/Up Key
       
-        - Left: a/A/Left KEY    - LeftRotate: x/X/Space Key          
+        - Left: a/A/Left KEY    - LeftRotate: e/E/Enter Key          
        
-        - Down: s/S/Down Key    - Drop: e/E/Enter Key
+        - Down: s/S/Down Key    - Drop: x/X/Space Key
 
 - In the Tetris Game, you're faced with a dynamic grid filled with 
 various tetromino shapes(I, J, L, O, S, T, Z).
@@ -18,8 +18,9 @@ over. Can you master the art of arranging and fitting the tetrominos
 to achieve the highest score? The game ends when you either conquer 
 the ever-growing block cascade or reach the stacking limit. Good luck!
 
+- With classic mode on, the player will get 10 points extra at start.
+- With classic mode off, the player will get 20 points extra at start.
 - With stealth mode off, the player will be able to see the blocks.
         - Each row cleared: 10 points
-
 - With stealth mode on, the player will not be able to see the blocks.
         - Each row cleared: 50 points

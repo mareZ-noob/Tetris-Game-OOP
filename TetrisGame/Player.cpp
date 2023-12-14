@@ -6,6 +6,12 @@ Player::Player() {
 	time = 0;
 }
 
+Player::Player(string name) {
+	this->name = name;
+	score = 0;
+	time = 0;
+}
+
 Player::Player(string name, int score) {
 	this->name = name;
 	this->score = score;

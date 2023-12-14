@@ -18,7 +18,6 @@ bool Leaderboard::comparePlayers(const Player& p1, const Player& p2) {
 }
 
 void Leaderboard::pushRecord(Player player) {
-    // Read all players from file
     ifstream ifs("Leaderboard.txt");
     vector<Player> players;
     while (!ifs.eof()) {
@@ -29,28 +28,46 @@ void Leaderboard::pushRecord(Player player) {
 		}
 		stringstream ss(line);
 		string item;
-        while (getline(ss, item, ',')) {
+        while (getline(ss, item, '-')) {
 			string name = item;
-			getline(ss, item, ',');
+			getline(ss, item, '-');
 			int score = stoi(item);
-			getline(ss, item, ',');
+			getline(ss, item, '-');
 			int time = stoi(item);
 			players.push_back(Player(name, score, time));
 		}
 	}
     ifs.close();
 
-	// Add a new player
 	players.push_back(player);
-	//sort(players.begin(), players.end(), comparePlayer);
+	sort(players.begin(), players.end(), &Leaderboard::comparePlayers);
 	ofstream ofs("Leaderboard.txt");
 
-	// Write top 5 players to file
+	// Top 5 players
 	for (int i = 0; i < 5; i++) {
-		ofs << players[i].getName() << "," << players[i].getScore() << "," << players[i].getTime() << "\n";
+		ofs << players[i].getName() << "-" << players[i].getScore() << "-" << players[i].getTime() << "\n";
 	}
 	ofs.close();
 }
 
 void Leaderboard::printLeaderboard() {
+
+}
+
+Leaderboard* Leaderboard::instance = nullptr;
+mutex Leaderboard::mutex_;
+Leaderboard* Leaderboard::getInstance() {
+	lock_guard<mutex> lock(mutex_);
+	if (instance == nullptr) {
+		instance = new Leaderboard();
+	}
+	return instance;
+}
+
+void Leaderboard::deleteInstance() {
+	lock_guard<mutex> lock(mutex_);
+	if (instance != nullptr) {
+		delete instance;
+		instance = nullptr;
+	}
 }

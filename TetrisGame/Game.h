@@ -10,8 +10,10 @@
 #include <vector>
 
 #include "Block.h"
-#include "Grid.h"
 #include "Constant.h"
+#include "Grid.h"
+#include "Leaderboard.h"
+#include "Player.h"
 
 using std::async;
 using std::chrono::milliseconds;
@@ -29,9 +31,10 @@ private:
 	Block nextBlock;
 	Grid grid;
 	int mode; // 1: easy, 2: medium, 3: hard, 4: very hard
-	int score;
+	int classicMode; // 1: Full blocks display each set, 2: Random blocks display each set
 	bool gameOver;
 	int speed;
+	int score;
 public:
 	// Constructor and destructor
 	Game();
@@ -39,14 +42,21 @@ public:
 
 	// Getters and setters
 	vector<Block> getBlocks() const;
+	Block getRandomBlock();
+	void setCurrentBlock(Block block);
+	void setNextBlock(Block block);
 	int getMode() const;
-	void setMode(int level);
+	void setMode(int mode);
+	int getClassicMode() const;
+	void setClassicMode(int classicMode);
 	bool getGameOver() const;
-	void setSpeed(int speed);
+	void setGameOver(bool gameOver);
 	int getSpeed() const;
+	void setSpeed(int speed);
+	int getScore() const;
+	void setScore(int score);
 
 	// Game display
-	Block getRandomBlock();
 	void handleInput();
 	void drawNextBlock();
 	void gameDisplay();
@@ -65,8 +75,8 @@ public:
 	void disableBlock();
 
 	// Score
-	void updateScore(int rowsDestroy);
-	bool checkLose();
+	void updateScore(int rowsDestroy, int bonus);
+	bool checkGameFinish();
 	void newGame();
 
 	// Game mode

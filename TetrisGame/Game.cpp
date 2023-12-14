@@ -3,16 +3,22 @@
 Game::Game() {
 	grid = Grid();
 	blocks = getBlocks();
-	currentBlock = getRandomBlock();
-	nextBlock = getRandomBlock();
-	score = 0;
-	mode = 1;
-	gameOver = false;
-	speed = 300;
+	setClassicMode(1);
+	setCurrentBlock(getRandomBlock());
+	setNextBlock(getRandomBlock());
+	if (getClassicMode() == 1) {
+		setScore(10);
+	}
+	else if (getClassicMode() == 2) {
+		setScore(20);
+	}
+	setMode(1);
+	setGameOver(false);
+	setSpeed(300);
 }
 
 Game::~Game() {
-	Color::deleteInstance();
+	Leaderboard::deleteInstance();
 	Screen::deleteInstance();
 }
 
@@ -20,42 +26,76 @@ vector<Block> Game::getBlocks() const {
 	return this->allBlocks;
 }
 
+Block Game::getRandomBlock() {
+	if (getClassicMode() == 1) {
+		srand(time(NULL));
+		int random = rand() % blocks.size();
+		Block block = blocks[random];
+		return block;
+	}
+	else if (getClassicMode() == 2) {
+		if (blocks.size() == 0) {
+			blocks = getBlocks();
+		}
+		srand(time(NULL));
+		int random = rand() % blocks.size();
+		Block block = blocks[random];
+		blocks.erase(blocks.begin() + random);
+		return block;
+	}
+	return Block();
+}
+
+void Game::setCurrentBlock(Block block) {
+	this->currentBlock = block;
+}
+
+void Game::setNextBlock(Block block) {
+	this->nextBlock = block;
+}
+
 int Game::getMode() const {
 	return this->mode;
 }
 
-void Game::setMode(int level) {
-	this->mode = level;
+void Game::setMode(int mode) {
+	this->mode = mode;
+}
+
+int Game::getClassicMode() const {
+	return this->classicMode;
+}
+
+void Game::setClassicMode(int classicMode) {
+		this->classicMode = classicMode;
 }
 
 bool Game::getGameOver() const {
 	return this->gameOver;
 }
 
-void Game::setSpeed(int speed) {
-	this->speed = speed;
+void Game::setGameOver(bool gameOver) {
+	this->gameOver = gameOver;
 }
 
 int Game::getSpeed() const {
 	return this->speed;
 }
 
-Block Game::getRandomBlock() {
-	srand(time(NULL));
-	int random = rand() % blocks.size();
-	Block block = blocks[random];
-	return block;
+void Game::setSpeed(int speed) {
+	this->speed = speed;
+}
+
+int Game::getScore() const {
+	return this->score;
+}
+
+void Game::setScore(int score) {
+	this->score = score;
 }
 
 void Game::handleInput() {
 	int key = _getch();
-	if (gameOver && key != 0) {
-		//newGame();
-		Screen::getInstance()->clearScreen();
-		Screen::getInstance()->moveCursor(0, 0);
-		cout << "Game over! Your score is: " << score << endl;
-		Sleep(1000);
-	}
 	switch (key) {
 		case KEY_a:
 		case KEY_A:
@@ -77,14 +117,14 @@ void Game::handleInput() {
 		case KEY_UP:
 			rightRotateBlock();
 			break;
-		case KEY_x:
-		case KEY_X:
-		case KEY_SPACE:
-			leftRotateBlock();
-			break;
 		case KEY_e:
 		case KEY_E:
 		case ENTER_KEY:
+			leftRotateBlock();
+			break;
+		case KEY_x:
+		case KEY_X:
+		case KEY_SPACE:
 			dropBlock();
 			break;
 	}
@@ -104,7 +144,7 @@ void Game::gameDisplay() {
 	grid.drawGrid();
 	currentBlock.Draw();
 	drawNextBlock();
-	if (mode == 1) {
+	if (getMode() == 1) {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (grid.grid[i][j] != 0) {
@@ -120,7 +160,7 @@ void Game::gameDisplay() {
 void Game::moveLeft() {
 	if (!gameOver) {
 		currentBlock.Move(0, -1);
-		if (verticalCollision() || horizontalCollision() == false) {
+		if (verticalCollision() || !horizontalCollision()) {
 			currentBlock.Move(0, 1);
 		}
 	}
@@ -129,7 +169,7 @@ void Game::moveLeft() {
 void Game::moveRight() {
 	if (!gameOver) {
 		currentBlock.Move(0, 1);
-		if (verticalCollision() || horizontalCollision() == false) {
+		if (verticalCollision() || !horizontalCollision()) {
 			currentBlock.Move(0, -1);
 		}
 	}
@@ -138,7 +178,7 @@ void Game::moveRight() {
 void Game::moveDown() {
 	if (!gameOver) {
 		currentBlock.Move(1, 0);
-		if (verticalCollision() || horizontalCollision() == false) {
+		if (verticalCollision() || !horizontalCollision()) {
 			currentBlock.Move(-1, 0);
 			disableBlock();
 		}
@@ -148,7 +188,7 @@ void Game::moveDown() {
 void Game::rightRotateBlock() {
 	if (!gameOver) {
 		currentBlock.rightRotate();
-		if (verticalCollision() || horizontalCollision() == false) {
+		if (verticalCollision() || !horizontalCollision()) {
 			currentBlock.leftRotate();
 		}
 	}
@@ -157,7 +197,7 @@ void Game::rightRotateBlock() {
 void Game::leftRotateBlock() {
 	if (!gameOver) {
 		currentBlock.leftRotate();
-		if (verticalCollision() || horizontalCollision() == false) {
+		if (verticalCollision() || !horizontalCollision()) {
 			currentBlock.rightRotate();
 		}
 	}
@@ -165,16 +205,9 @@ void Game::leftRotateBlock() {
 
 void Game::dropBlock() {	
 	if (!gameOver) {
-		int lowestRow = 0;
-		vector<Position> blockCells = currentBlock.getCellsPositions();
-		for (Position cell : blockCells) {
-			if (cell.getRow() > lowestRow) {
-				lowestRow = cell.getRow();
-			}
-		}
 		while (true) {
 			currentBlock.Move(1, 0);
-			if (verticalCollision() || horizontalCollision() == false) {
+			if (verticalCollision() || !horizontalCollision()) {
 				currentBlock.Move(-1, 0);
 				disableBlock();
 				break;
@@ -196,7 +229,7 @@ bool Game::verticalCollision() {
 bool Game::horizontalCollision() {
 	vector<Position> blockCells = currentBlock.getCellsPositions();
 	for (Position cell : blockCells) {
-		if (grid.isCellEmpty(cell.getRow(), cell.getCol()) == false) {
+		if (!grid.isCellEmpty(cell.getRow(), cell.getCol())) {
 			return false;
 		}
 	}
@@ -208,27 +241,32 @@ void Game::disableBlock() {
 	for (Position cell : blockCells) {
 		grid.grid[cell.getRow()][cell.getCol()] = currentBlock.id;
 	}
-	currentBlock = nextBlock;
+	setCurrentBlock(nextBlock);
 	if (horizontalCollision() == false) {
-		gameOver = true;
+		setGameOver(true);
 	}
-	nextBlock = getRandomBlock();
-	int rowsDestroy = grid.clearRows();
+	setNextBlock(getRandomBlock());
+	int rowsDestroy = grid.clearRows().first;
 	if (rowsDestroy > 0) {
-		updateScore(rowsDestroy);
+		updateScore(rowsDestroy, grid.clearRows().second);
 	}
 }
 
-void Game::updateScore(int rowsDestroy) {
-	if (mode == 1) {
-		score += rowsDestroy * 10;
+void Game::updateScore(int rowsDestroy, int bonus) {
+	if (getMode() == 1) {
+		score += (rowsDestroy * 10 + bonus);
 	}
-	else if (mode == 2) {
-		score += rowsDestroy * 50;
+	else if (getMode() == 2) {
+		score += (rowsDestroy * 30 + bonus);
 	}
 }
 
-bool Game::checkLose() {
+bool Game::checkGameFinish() {
+	if (getScore() > MAX_SCORE) {
+		setScore(MAX_SCORE);
+		gameOver = true;
+		return true;
+	}
 	for (int i = 0; i < 10; i++) {
 		if (grid.grid[0][i] != 0) {
 			gameOver = true;
@@ -251,27 +289,49 @@ void Game::newGame() {
 
 void Game::runTetris() {
 	Game game = Game();
-	game.mediumMode();
+	game.easyMode();
 	const milliseconds updateInterval(game.getSpeed());
 
     future<void> handleInputFuture = async(launch::async, [&game]() {
         while (true) {
-            game.handleInput();
+			if (game.checkGameFinish()) {
+				break;
+			}
+			game.handleInput();
         }
     });
-    while (true) {
+	Player player = Player("nam");
+	clock_t time_req = clock();
+    while (!checkGameFinish()) {
+		if (game.getGameOver()) {
+			break;
+		}
         game.gameDisplay();
         sleep_for(updateInterval);
         game.moveDown();
-
-		if (game.checkLose()) {
-			Screen::getInstance()->clearScreen();
-			Screen::getInstance()->moveCursor(0, 0);
-			cout << "Game over! Your score is: " << game.score << endl;
-			Sleep(1000);
+		if (game.getGameOver()) {
 			break;
 		}
     }
+	time_req = clock() - time_req;
+	int time = time_req / CLOCKS_PER_SEC;
+	player.setScore(game.getScore());
+	player.setTime(time);
+	Leaderboard::getInstance()->pushRecord(player);
+	if (game.getScore() == MAX_SCORE) {
+		Screen::getInstance()->clearScreen();
+		Screen::getInstance()->moveCursor(0, 0);
+		cout << "You win! Your score is is: " << game.score << " time: " << time << endl;
+		Sleep(2000);
+		exit(0);
+	}
+	else {
+		Screen::getInstance()->clearScreen();
+		Screen::getInstance()->moveCursor(0, 0);
+		cout << "Game over! Your score is is: " << game.score << " time: " << time << endl;
+		Sleep(2000);
+		exit(0);
+	}
 }
 
 void Game::easyMode() {

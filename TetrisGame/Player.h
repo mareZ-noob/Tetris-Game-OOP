@@ -11,6 +11,7 @@ private:
 public:
 	// Constructor and destructor
 	Player();
+	Player(string name);
 	Player(string name, int score);
 	Player(string name, int score, int time);
 	~Player();

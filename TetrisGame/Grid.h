@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <map>
 #include <vector>
 
 #include "Color.h"
@@ -7,6 +8,8 @@
 #include "Screen.h"
 
 using std::cout;
+using std::map;
+using std::pair;
 using std::vector;
 
 class Grid {
@@ -34,7 +37,7 @@ public:
 	bool isRowFull(int row);
 
 	// Clear full rows
-	void clearRow(int row);
+	void clearRow(int row, int &bonus);
 	void moveRowDown(int row, int numRows);
-	int clearRows();
+	pair<int, int> clearRows();
 };
