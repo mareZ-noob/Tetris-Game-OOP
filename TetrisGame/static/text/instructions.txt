@@ -1,0 +1,24 @@
+                      - MOVE RIGHT: D/Right Key    - ROTATE RIGHT: W/Up Key
+      
+                      - MOVE LEFT:  A/Left KEY     - ROTATE LEFT:  X/Space Key          
+       
+                      - MOVE DOWN:  S/Down Key     - DROP:         E/Enter Key
+
+
+- In the Tetris Game, you're faced with a dynamic grid filled with various tetromino shapes
+ (I, J, L, O, S, T, Z).
+
+- Manipulate and place these falling blocks strategically to create solid horizontal lines.
+
+- Completing a line makes it vanish, earning you points and creating space for more blocks.
+  Keep it up to clear as many lines as possible.
+
+- Watch out, though-letting the blocks pile up to the top means game over. Can you master the art 
+  of arranging and fitting the tetrominos to achieve the highest score? The game ends when you 
+  either conquer the ever-growing block cascade or reach the stacking limit. Good luck!
+
+- With stealth mode off, the player will be able to see the blocks.
+* Each row cleared: 10 points
+
+- With stealth mode on, the player will not be able to see the blocks.
+* Each row cleared: 50 points
