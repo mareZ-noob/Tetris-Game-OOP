@@ -18,10 +18,7 @@ private:
     static Menu* instance;
     static mutex mutex_;
 
-    int x;
-    int y;
-    int w;
-    int h;
+    int x, y, w, h;
     int textColor;
     int buttonColor;
     int backgroundColor;
@@ -31,6 +28,18 @@ public:
     Menu();
     ~Menu();
 
+    // Setter
+    void setX(int x);
+    void setY(int y);
+    void setW(int w);
+    void setH(int h);
+
+    //Getter
+    int getX() const;
+    int getY() const;
+    int getW() const;
+    int getH() const;
+
     // Singleton
     static Menu* getInstance();
     static void deleteInstance();
@@ -39,13 +48,7 @@ public:
     void quit();
     void PlayGame();
     void selectionMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
-    void printMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
+    void printMainMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
     void MainMenu();
-    //void selectionMenuLogin(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
-    //void printMenuLogin(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
-    ////void LoginMenu();
-    //void selectionPlayGame(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
-    //void printPlayGame(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
-    //void GamePlayMenu();
-    //void HowToPlay();
+    //void ClassicModernMode(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
 };

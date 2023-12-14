@@ -22,20 +22,28 @@ void Grid::initGrid() {
 
 void Grid::drawGrid() {
 	Screen::getInstance()->resetConsoleColor();
-	for (int i = 0; i < numRows; i++) {
-		for (int j = 0; j < numCols; j++) {
-			// <= => (10, 9) => (11, 21)
-			Screen::getInstance()->moveCursor(j * cellSize + 10, i * cellSize + 10);
-			cout << ".";
-		}
-	}
+	Color::getInstance()->consoleTextColor(Color::DARKGRAY);
+
+	Screen::getInstance()->drawRectangle(19, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(21, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(23, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(25, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(27, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(29, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(31, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(33, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(35, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(37, 10, 1, 20);
+
+	Color::getInstance()->consoleTextColor(Color::BROWN);
+	Screen::getInstance()->drawRectangle(19, 10, 19, 20);
 }
 
 void Grid::drawBlock() {
 	for (int i = 0; i < numRows; i++) {
 		for (int j = 0; j < numCols; j++) {
 			int cellValue = grid[i][j];
-			Screen::getInstance()->DrawRectangle(COL + 2*j, ROW + i, cellSize, cellSize, colors[cellValue], 'A');
+			Screen::getInstance()->DrawRectangle(COL + 2 * j, ROW + i, cellSize, cellSize, colors[cellValue], 'A');
 		}
 	}
 }
