@@ -33,12 +33,20 @@ public:
     void setY(int y);
     void setW(int w);
     void setH(int h);
+    void setTextColor(int textColor);
+    void setButtonColor(int buttonColor);
+    void setBackgroundColor(int backgroundColor);
+    void setSelection(int selection);
 
     //Getter
     int getX() const;
     int getY() const;
     int getW() const;
     int getH() const;
+    int getTextColor() const;
+    int getButtonColor() const;
+    int getBackgroundColor() const;
+    int getSelection() const;
 
     // Singleton
     static Menu* getInstance();
@@ -47,8 +55,8 @@ public:
     // Console functions
     void quit();
     void PlayGame();
-    void selectionMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
-    void printMainMenu(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
+    void selectionMenu();
+    void printMainMenu();
     void MainMenu();
-    //void ClassicModernMode(int selection, int x, int y, int w, int h, int textColor, int buttonColor, int backgroundColor);
+    void ClassicModernMode();
 };
