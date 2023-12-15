@@ -1,17 +1,25 @@
 #pragma once
 #include <conio.h>
+#include <memory>
+#include <utility>
 #include <Windows.h>
 
 #include "Color.h"
 #include "Constant.h"
+#include "Game.h"
 #include "Graphic.h"
+#include "Leaderboard.h"
+#include "Player.h"
 #include "Screen.h"
 
+using std::cin;
 using std::cout;
 using std::endl;
 using std::lock_guard;
+using std::make_unique;
 using std::mutex;
 using std::string;
+using std::unique_ptr;
 
 class Menu {
 private:
@@ -23,6 +31,8 @@ private:
     int buttonColor;
     int backgroundColor;
     int selection;
+
+    string playerName;
 public:
     // Constructor and destructor
     Menu();
@@ -37,6 +47,7 @@ public:
     void setButtonColor(int buttonColor);
     void setBackgroundColor(int backgroundColor);
     void setSelection(int selection);
+    void setPlayerName(string playerName);
 
     //Getter
     int getX() const;
@@ -47,6 +58,7 @@ public:
     int getButtonColor() const;
     int getBackgroundColor() const;
     int getSelection() const;
+    string getPlayerName() const;
 
     // Singleton
     static Menu* getInstance();
@@ -74,4 +86,7 @@ public:
     void ModernModeMenu();
     void selectionMenu4();
     void printModernModeMenu();
+
+    // Delete all instances
+    void deleteAllInstances();
 };

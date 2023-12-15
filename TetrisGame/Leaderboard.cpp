@@ -51,7 +51,64 @@ void Leaderboard::pushRecord(Player player) {
 }
 
 void Leaderboard::printLeaderboard() {
+	ifstream ifs("Leaderboard.txt");
+	vector<Player> players;
+	while (!ifs.eof()) {
+		string line;
+		getline(ifs, line);
+		if (line.empty()) {
+			break;
+		}
+		stringstream ss(line);
+		string item;
+		while (getline(ss, item, '-')) {
+			string name = item;
+			getline(ss, item, '-');
+			int score = stoi(item);
+			getline(ss, item, '-');
+			int time = stoi(item);
+			players.push_back(Player(name, score, time));
+		}
+	}
+	Graphic::getInstance()->readFileAtPosition("static\\ascii\\leaderboard.txt", 13, 3, Color::BLACK, Color::LIGHTGREEN);
 
+	Color::getInstance()->consoleTextColor(Color::LIGHTGREEN);
+	Screen::getInstance()->drawRectangle(28, 14, 32, 15);
+	Screen::getInstance()->drawRectangle(61, 14, 9, 15);
+	Screen::getInstance()->drawRectangle(71, 14, 8, 15);
+
+	Screen::getInstance()->Button(28, 14, 33, 2, Color::RED, Color::LIGHTGREEN, Color::BLACK, "              NAME");
+	Screen::getInstance()->Button(61, 14, 10, 2, Color::RED, Color::LIGHTGREEN, Color::BLACK, "  POINT");
+	Screen::getInstance()->Button(71, 14, 9, 2, Color::RED, Color::LIGHTGREEN, Color::BLACK, "  TIME");
+
+	Screen::getInstance()->goToXY(28, 16);
+	cout << char(195);
+	Screen::getInstance()->goToXY(61, 16);
+	cout << char(197);
+	Screen::getInstance()->goToXY(71, 16);
+	cout << char(197);
+	Screen::getInstance()->goToXY(80, 16);
+	cout << char(180);
+	Screen::getInstance()->goToXY(61, 14);
+	cout << char(194);
+	Screen::getInstance()->goToXY(61, 29);
+	cout << char(193);
+	Screen::getInstance()->goToXY(71, 14);
+	cout << char(194);
+	Screen::getInstance()->goToXY(71, 29);
+	cout << char(193);
+
+	Color::getInstance()->consoleTextColor(Color::WHITE);
+	for (int i = 0; i < players.size(); i++) {
+		Screen::getInstance()->goToXY(30, 17 + i);
+		cout << i + 1 << ". " << players[i].getName();
+		Screen::getInstance()->goToXY(65, 17 + i);
+		cout << players[i].getScore();
+		Screen::getInstance()->goToXY(75, 17 + i);
+		cout << players[i].getTime();
+	}
+
+	ifs.close();
 }
 
 Leaderboard* Leaderboard::instance = nullptr;

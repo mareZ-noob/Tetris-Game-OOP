@@ -6,12 +6,7 @@ Game::Game() {
 	setClassicMode(1);
 	setCurrentBlock(getRandomBlock());
 	setNextBlock(getRandomBlock());
-	if (getClassicMode() == 1) {
-		setScore(10);
-	}
-	else if (getClassicMode() == 2) {
-		setScore(20);
-	}
+	setScore(0);
 	setMode(1);
 	setGameOver(false);
 	setSpeed(300);
@@ -28,7 +23,7 @@ vector<Block> Game::getBlocks() const {
 
 Block Game::getRandomBlock() {
 	if (getClassicMode() == 1) {
-		srand(time(NULL));
+		srand(unsigned int(time(NULL)));
 		int random = rand() % blocks.size();
 		Block block = blocks[random];
 		return block;
@@ -37,7 +32,7 @@ Block Game::getRandomBlock() {
 		if (blocks.size() == 0) {
 			blocks = getBlocks();
 		}
-		srand(time(NULL));
+		srand(unsigned int(time(NULL)));
 		int random = rand() % blocks.size();
 		Block block = blocks[random];
 		blocks.erase(blocks.begin() + random);
@@ -67,7 +62,16 @@ int Game::getClassicMode() const {
 }
 
 void Game::setClassicMode(int classicMode) {
-		this->classicMode = classicMode;
+	this->classicMode = classicMode;
+	if (this->classicMode == 1) {
+		setScore(10);
+	}
+	else if (this->classicMode == 2) {
+		setScore(20);
+	}
+	else {
+		setScore(0);
+	}
 }
 
 bool Game::getGameOver() const {
@@ -117,14 +121,14 @@ void Game::handleInput() {
 		case KEY_UP:
 			rightRotateBlock();
 			break;
-		case KEY_e:
-		case KEY_E:
-		case ENTER_KEY:
-			leftRotateBlock();
-			break;
 		case KEY_x:
 		case KEY_X:
 		case KEY_SPACE:
+			leftRotateBlock();
+			break;
+		case KEY_e:
+		case KEY_E:
+		case ENTER_KEY:
 			dropBlock();
 			break;
 	}
@@ -287,48 +291,73 @@ void Game::newGame() {
 	speed = 200;
 }
 
-void Game::runTetris() {
-	Game game = Game();
-	game.easyMode();
-	const milliseconds updateInterval(game.getSpeed());
+void Game::runTetris(const string playerName, int classic, int mode) {
+	unique_ptr<Game> game(new Game());
+	unique_ptr<Player> pPlayer(new Player());
+	pPlayer->setName(playerName);
 
-    future<void> handleInputFuture = async(launch::async, [&game]() {
-        while (true) {
-			if (game.checkGameFinish()) {
+	switch (classic) {
+		case 1:
+			game->setClassicMode(1);
+			break;
+		case 2:
+			game->setClassicMode(2);
+			break;
+	}
+
+	switch (mode) {
+		case 1:
+			game->easyMode();
+			break;
+		case 2:
+			game->mediumMode();
+			break;
+		case 3:
+			game->hardMode();
+			break;
+		case 4:
+			game->veryHardMode();
+			break;
+	}
+	const milliseconds updateInterval(game->getSpeed());
+
+	future<void> handleInputFuture = async(launch::async, [&game]() {
+		while (true) {
+			if (game->checkGameFinish()) {
 				break;
 			}
-			game.handleInput();
-        }
-    });
-	Player player = Player("nam");
+			game->handleInput();
+		}
+	});
+
 	clock_t time_req = clock();
-    while (!checkGameFinish()) {
-		if (game.getGameOver()) {
+	while (!checkGameFinish()) {
+		if (game->getGameOver()) {
 			break;
 		}
-        game.gameDisplay();
-        sleep_for(updateInterval);
-        game.moveDown();
-		if (game.getGameOver()) {
+		game->gameDisplay();
+		sleep_for(updateInterval);
+		game->moveDown();
+		if (game->getGameOver()) {
 			break;
 		}
-    }
+	}
 	time_req = clock() - time_req;
 	int time = time_req / CLOCKS_PER_SEC;
-	player.setScore(game.getScore());
-	player.setTime(time);
-	Leaderboard::getInstance()->pushRecord(player);
-	if (game.getScore() == MAX_SCORE) {
+	pPlayer->setScore(game->getScore());
+	pPlayer->setTime(time);
+	Leaderboard::getInstance()->pushRecord(*pPlayer);
+	if (game->getScore() == MAX_SCORE) {
 		Screen::getInstance()->clearScreen();
 		Screen::getInstance()->moveCursor(0, 0);
-		cout << "You win! Your score is is: " << game.score << " time: " << time << endl;
+		cout << "You win! Your score is is: " << game->score << " time: " << time << endl;
 		Sleep(2000);
 		exit(0);
 	}
 	else {
 		Screen::getInstance()->clearScreen();
 		Screen::getInstance()->moveCursor(0, 0);
-		cout << "Game over! Your score is is: " << game.score << " time: " << time << endl;
+		cout << "Game over! Your score is is: " << game->score << " time: " << time << endl;
 		Sleep(2000);
 		exit(0);
 	}

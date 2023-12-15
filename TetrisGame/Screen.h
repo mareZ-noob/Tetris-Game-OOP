@@ -50,5 +50,5 @@ public:
 	void drawBorder();
 	void drawBackButton();
 	void createScreen();
-	void Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text);
+	void Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, const string text);
 };

@@ -198,7 +198,7 @@ void Screen::createScreen()
     drawBackButton();
 }
 
-void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text) {
+void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, const string text) {
     Color::getInstance()->consoleColor(color, textColor);
     for (int iy = y + 1; iy <= y + h - 1; iy++) {
         for (int ix = x + 1; ix <= x + w - 1; ix++) {

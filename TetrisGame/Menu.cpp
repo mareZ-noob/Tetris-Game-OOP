@@ -1,7 +1,14 @@
 ﻿#include "Menu.h"
 
 Menu::Menu() {
-
+    this->x = 0;
+    this->y = 0;
+    this->w = 0;
+    this->h = 0;
+    this->textColor = 0;
+    this->buttonColor = 0;
+    this->backgroundColor = 0;
+    this->selection = 0;
 }
 
 Menu::~Menu() {
@@ -40,6 +47,10 @@ void Menu::setSelection(int selection) {
     this->selection = selection;
 }
 
+void Menu::setPlayerName(string playerName) {
+    this->playerName = playerName;
+}
+
 int Menu::getX() const{
     return this->x;
 }
@@ -72,6 +83,10 @@ int Menu::getSelection() const {
     return this->selection;
 }
 
+string Menu::getPlayerName() const {
+    return this->playerName;
+}
+
 Menu* Menu::instance = nullptr;
 mutex Menu::mutex_;
 Menu* Menu::getInstance() {
@@ -90,7 +105,6 @@ void Menu::deleteInstance() {
     }
 }
 
-
 //MENU 1:
 void Menu::MainMenu() {
     setX(42);
@@ -108,21 +122,21 @@ void Menu::MainMenu() {
     while (true) {
         char c = _getch();
 
-        if (c == KEY_w || c == KEY_W || c == KEY_UP) { // move up
+        if (c == KEY_w || c == KEY_W || c == KEY_UP) { 
             this->selection--;
             if (getSelection() == 0) {
                 setSelection(5);
             }
             selectionMenu1();
         }
-        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { // move down
+        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { 
             this->selection++;
             if (getSelection() == 6) {
                 setSelection(1);
             }
             selectionMenu1();
         }
-        else if (c == ENTER_KEY || c == '\n') { // pressed enter
+        else if (c == ENTER_KEY || c == '\n') { 
             switch (this->selection) {
             case 1:
                 Screen::getInstance()->clearScreen();
@@ -131,7 +145,7 @@ void Menu::MainMenu() {
                 break;
             case 2:
                 Screen::getInstance()->Screen::createScreen();
-
+                Leaderboard::getInstance()->printLeaderboard();
                 while (true) {
                     if (_kbhit()) {
                         char key = _getch();
@@ -268,7 +282,7 @@ void Menu::printMainMenu() {
 void Menu::PlayGame() {
     Color::getInstance()->consoleTextColor(Color::BROWN);
     Screen::getInstance()->drawRectangle(32, 12, 40, 12);
-    Screen::getInstance()->Button(33, 13, 19, 2, Color::LIGHTGREEN, Color::BLACK, Color::BLACK, " ENTER YOUR NAME:");
+    Screen::getInstance()->Button(43, 13, 19, 2, Color::LIGHTGREEN, Color::BLACK, Color::BLACK, " ENTER YOUR NAME:");
 
     Screen::getInstance()->Button(36, 16, 32, 2, Color::WHITE, Color::BROWN, Color::BLACK, " ");
     Screen::getInstance()->goToXY(41, 23);
@@ -278,24 +292,24 @@ void Menu::PlayGame() {
     Screen::getInstance()->goToXY(37, 17);
     Color::getInstance()->consoleTextColor(Color::WHITE);
     Screen::getInstance()->showCursor(1);
-    std::string PlayerName;
-    getline(std::cin, PlayerName);
 
-    if (!PlayerName.empty()) {
+    string temp;
+    getline(cin, temp);
+    if (!temp.empty()) {
+        setPlayerName(temp);
         Screen::getInstance()->Screen::createScreen();
-        Menu::getInstance()->ClassicModernMenu();
+        return ClassicModernMenu();
     }
     else {
         Color::getInstance()->consoleTextColor(Color::RED);
         Screen::getInstance()->goToXY(41, 21);
         printf("Please enter your name!");
-        return Menu::PlayGame();
+        return PlayGame();
     }
 }
 
 void Menu::quit() {
     Screen::getInstance()->clearScreen();
-    //pikachu_bye(4, 4);
     Graphic::getInstance()->readFileAtPosition("static\\ascii\\quit.txt", 23, 13, Color::BLACK, Color::YELLOW);
     Screen::getInstance()->drawBorder();
     Color::getInstance()->consoleColor(Color::BLACK, Color::WHITE);
@@ -303,7 +317,6 @@ void Menu::quit() {
     Screen::getInstance()->clearScreen();
     exit(1);
 }
-
 
 //MENU 2:
 void Menu::ClassicModernMenu() {
@@ -326,21 +339,21 @@ void Menu::ClassicModernMenu() {
             Screen::getInstance()->clearScreen();
             return MainMenu();
         }
-        else if (c == KEY_w || c == KEY_W || c == KEY_UP) { // move up
+        else if (c == KEY_w || c == KEY_W || c == KEY_UP) { 
             this->selection--;
             if (getSelection() == 0) {
                 setSelection(2);
             }
             selectionMenu2();
         }
-        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { // move down
+        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { 
             this->selection++;
             if (getSelection() == 3) {
                 setSelection(1);
             }
             selectionMenu2();
         }
-        else if (c == ENTER_KEY || c == '\n') { // pressed enter
+        else if (c == ENTER_KEY || c == '\n') { 
             switch (this->selection) {
             case 1:
                 Screen::getInstance()->Screen::createScreen();
@@ -409,41 +422,42 @@ void Menu::ClassicModeMenu() {
             Screen::getInstance()->Screen::createScreen();
             return ClassicModernMenu();
         }
-        else if (c == KEY_w || c == KEY_W || c == KEY_UP) { // move up
+        else if (c == KEY_w || c == KEY_W || c == KEY_UP) {
             this->selection--;
             if (getSelection() == 0) {
                 setSelection(4);
             }
             selectionMenu3();
         }
-        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { // move down
+        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { 
             this->selection++;
             if (getSelection() == 5) {
                 setSelection(1);
             }
             selectionMenu3();
         }
-        else if (c == ENTER_KEY || c == '\n') { // pressed enter
+        else if (c == ENTER_KEY || c == '\n') { 
+            unique_ptr<Game> Tetris(new Game());
             switch (this->selection) {
             case 1:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game classic easy HERE!!!
+                Tetris->runTetris(playerName, 1, 1);
                 break;
             case 2:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game classic medium HERE!!!
+                Tetris->runTetris(playerName, 1, 2);
                 break;
             case 3:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game classic hard HERE!!!
+                Tetris->runTetris(playerName, 1, 3);
                 break;
             case 4:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game classic extreme HERE!!!
+                Tetris->runTetris(playerName, 1, 4);
                 break;
             }
         }
@@ -534,41 +548,42 @@ void Menu::ModernModeMenu() {
             Screen::getInstance()->clearScreen();
             return ClassicModernMenu();
         }
-        else if (c == KEY_w || c == KEY_W || c == KEY_UP) { // move up
+        else if (c == KEY_w || c == KEY_W || c == KEY_UP) { 
             this->selection--;
             if (getSelection() == 0) {
                 setSelection(4);
             }
             selectionMenu4();
         }
-        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { // move down
+        else if (c == KEY_s || c == KEY_S || c == KEY_DOWN) { 
             this->selection++;
             if (getSelection() == 5) {
                 setSelection(1);
             }
             selectionMenu4();
         }
-        else if (c == ENTER_KEY || c == '\n') { // pressed enter
+        else if (c == ENTER_KEY || c == '\n') { 
+            unique_ptr<Game> Tetris(new Game());
             switch (this->selection) {
             case 1:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game modern easy HERE!!!
+                Tetris->runTetris(playerName, 2, 1);
                 break;
             case 2:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game modern medium HERE!!!
+                Tetris->runTetris(playerName, 2, 2);
                 break;
             case 3:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game modern hard HERE!!!
+                Tetris->runTetris(playerName, 2, 3);
                 break;
             case 4:
                 Screen::getInstance()->clearScreen();
                 Screen::getInstance()->drawBorder();
-                //Game modern extreme HERE!!!
+                Tetris->runTetris(playerName, 2, 4);
                 break;
             }
         }
@@ -635,4 +650,12 @@ void Menu::printModernModeMenu() {
     Graphic::getInstance()->artAtPosition("static\\ascii\\modern.txt", 35, 11, Color::BLACK, Color::YELLOW);
     Screen::getInstance()->drawBorder();
     selectionMenu3();
+}
+
+void Menu::deleteAllInstances() {
+    deleteInstance();
+    Color::deleteInstance();
+    Graphic::deleteInstance();
+    Leaderboard::deleteInstance();
+    Screen::deleteInstance();
 }

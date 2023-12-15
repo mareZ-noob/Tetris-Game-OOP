@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <future>
 #include <map>
+#include <memory>
 #include <random>
 #include <time.h>
 #include <thread>
@@ -20,6 +21,7 @@ using std::chrono::milliseconds;
 using std::future;
 using std::launch;
 using std::this_thread::sleep_for;
+using std::unique_ptr;
 using std::vector;
 
 class Game {
@@ -86,5 +88,5 @@ public:
 	void veryHardMode();
 
 	// Game start
-	void runTetris();
+	void runTetris(const string playerName, int classic, int mode);
 };
