@@ -143,11 +143,16 @@ void Game::drawNextBlock() {
 	}
 }
 
-void Game::gameDisplay() {
+void Game::gameDisplay(string name, int score) {
 	Screen::getInstance()->clearScreen();
-	gameInformation();
 	Screen::getInstance()->drawBorder();
+	gameInformation();
 	grid.drawGrid();
+	Screen::getInstance()->goToXY(68, 12);
+	cout << name;
+	Screen::getInstance()->goToXY(68, 14);
+	cout << score;
+
 	currentBlock.Draw();
 	drawNextBlock();
 	if (getMode() == 1) {
@@ -337,7 +342,7 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 		if (game->getGameOver()) {
 			break;
 		}
-		game->gameDisplay();
+		game->gameDisplay(pPlayer->getName(), game->getScore());
 		sleep_for(updateInterval);
 		game->moveDown();
 		if (game->getGameOver()) {
@@ -355,9 +360,7 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 		Color::getInstance()->consoleTextColor(Color::WHITE);
 		Screen::getInstance()->moveCursor(17, 20);
 		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
-		cout << endl;
-		cout << endl;
-		cout << endl;
+		cout << "\n\n\n";
 		exit(0);
 	}
 	else {
@@ -366,9 +369,7 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 		Color::getInstance()->consoleTextColor(Color::WHITE);
 		Screen::getInstance()->moveCursor(17, 20);
 		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
-		cout << endl;
-		cout << endl;
-		cout << endl;
+		cout << "\n\n\n";
 		Sleep(2000);
 		exit(0);
 	}
@@ -407,9 +408,9 @@ void Game::gameInformation() {
 
 	Color::getInstance()->consoleTextColor(Color::CYAN);
 	Screen::getInstance()->goToXY(52, 12);
-	printf("Player's name:");
+	cout << "Player's name:";
 	Screen::getInstance()->goToXY(52, 14);
-	printf("Score:");
+	cout << "Score:";
 
 	// display next block
 	Color::getInstance()->consoleTextColor(Color::WHITE);
@@ -419,13 +420,4 @@ void Game::gameInformation() {
 	cout << char(195);
 	Screen::getInstance()->goToXY(87, 21);
 	cout << char(180);
-
-	//// key guide
-	//Screen::getInstance()->Button(45, 24, 27, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " D/RIGHT KEY : Move right");
-	//Screen::getInstance()->Button(78, 24, 25, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " A/LEFT KEY : Move left");
-	//Screen::getInstance()->Button(45, 27, 25, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " S/DOWN KEY : Move down");
-	//Screen::getInstance()->Button(78, 27, 17, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " E/ENTER : DROP");
-	//Screen::getInstance()->Button(45, 30, 26, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " W/UP KEY : Rotate right");
-	//Screen::getInstance()->Button(78, 30, 24, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " X/SPACE : Rotate left");
-	////Screen::getInstance()->Button(65, 32, 13, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, " ESC : EXIT");
 }

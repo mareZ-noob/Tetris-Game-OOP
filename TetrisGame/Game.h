@@ -20,6 +20,7 @@ using std::async;
 using std::chrono::milliseconds;
 using std::future;
 using std::launch;
+using std::thread;
 using std::this_thread::sleep_for;
 using std::unique_ptr;
 using std::vector;
@@ -61,7 +62,7 @@ public:
 	// Game display
 	void handleInput();
 	void drawNextBlock();
-	void gameDisplay();
+	void gameDisplay(string name, int score);
 
 	// Movement
 	void moveLeft();
