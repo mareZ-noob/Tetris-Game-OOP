@@ -172,6 +172,32 @@ void Screen::drawBorder() {
     drawRectangle(0, 0, 105, 35);
 }
 
+void Screen::drawBackButton()
+{
+    drawRectangle(0, 33, 21, 2);
+    goToXY(1, 34);
+    Color::getInstance()->consoleTextColor(Color::WHITE);
+    printf("<< Press ");
+    Color::getInstance()->consoleTextColor(Color::LIGHTRED);
+    printf("Esc");
+    Color::getInstance()->consoleTextColor(Color::WHITE);
+    printf(" to back");
+
+    Color::getInstance()->consoleTextColor(Color::LIGHTCYAN);
+    goToXY(0, 33);
+    cout << char(195);
+    goToXY(22, 35);
+    cout << char(193);
+}
+
+
+void Screen::createScreen()
+{
+    clearScreen();
+    drawBorder();
+    drawBackButton();
+}
+
 void Screen::Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text) {
     Color::getInstance()->consoleColor(color, textColor);
     for (int iy = y + 1; iy <= y + h - 1; iy++) {

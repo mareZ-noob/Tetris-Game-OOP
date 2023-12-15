@@ -48,5 +48,7 @@ public:
 	void DrawRectangle(double posX, double posY, int width, int height, Color color, const char c);
 	void drawRectangle(int left, int top, int width, int height);
 	void drawBorder();
+	void drawBackButton();
+	void createScreen();
 	void Button(int x, int y, int w, int h, int textColor, int buttonColor, int color, string text);
 };

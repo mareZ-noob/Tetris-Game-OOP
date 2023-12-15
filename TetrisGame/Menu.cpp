@@ -130,9 +130,8 @@ void Menu::MainMenu() {
                 Menu::PlayGame();
                 break;
             case 2:
-                Screen::getInstance()->clearScreen();
-                Screen::getInstance()->drawBorder();
-                
+                Screen::getInstance()->Screen::createScreen();
+
                 while (true) {
                     if (_kbhit()) {
                         char key = _getch();
@@ -145,12 +144,11 @@ void Menu::MainMenu() {
                 }
                 break;
             case 3:
-                Screen::getInstance()->clearScreen();
-                Screen::getInstance()->drawBorder();
+                Screen::getInstance()->Screen::createScreen();
                 Graphic::getInstance()->readFileAtPosition("static\\ascii\\howtoplay.txt", 22, 2, backgroundColor, Color::LIGHTRED);
-                Graphic::getInstance()->readFileAtPosition("static\\text\\instructions.txt", 4, 10, backgroundColor, textColor);
+                Graphic::getInstance()->readFileAtPosition("static\\text\\instructions.txt", 4, 8, backgroundColor, textColor);
                 Color::getInstance()->consoleTextColor(Color::LIGHTRED);
-                Screen::getInstance()->drawRectangle(24, 9, 58, 6);
+                Screen::getInstance()->drawRectangle(24, 7, 58, 6);
                 while (true) {
                     if (_kbhit()) {
                         char key = _getch();
@@ -163,8 +161,7 @@ void Menu::MainMenu() {
                 }
                 break;
             case 4:
-                Screen::getInstance()->clearScreen();
-                Screen::getInstance()->drawBorder();
+                Screen::getInstance()->Screen::createScreen();
                 Graphic::getInstance()->readFileAtPosition("static\\ascii\\credit.txt", 32, 2, backgroundColor, Color::YELLOW);
                 Graphic::getInstance()->readFileAtPosition("static\\text\\credit.txt", 4, 12, backgroundColor, textColor);
                 Color::getInstance()->consoleTextColor(Color::YELLOW);
@@ -285,7 +282,7 @@ void Menu::PlayGame() {
     getline(std::cin, PlayerName);
 
     if (!PlayerName.empty()) {
-        Screen::getInstance()->clearScreen();
+        Screen::getInstance()->Screen::createScreen();
         Menu::getInstance()->ClassicModernMenu();
     }
     else {
@@ -346,13 +343,11 @@ void Menu::ClassicModernMenu() {
         else if (c == ENTER_KEY || c == '\n') { // pressed enter
             switch (this->selection) {
             case 1:
-                Screen::getInstance()->clearScreen();
-                Screen::getInstance()->drawBorder();
+                Screen::getInstance()->Screen::createScreen();
                 ClassicModeMenu();
                 break;
             case 2:
-                Screen::getInstance()->clearScreen();
-                Screen::getInstance()->drawBorder();
+                Screen::getInstance()->Screen::createScreen();
                 ModernModeMenu();
                 break;
             
@@ -411,7 +406,7 @@ void Menu::ClassicModeMenu() {
         char c = _getch();
 
         if (c == ESC_KEY) {
-            Screen::getInstance()->clearScreen();
+            Screen::getInstance()->Screen::createScreen();
             return ClassicModernMenu();
         }
         else if (c == KEY_w || c == KEY_W || c == KEY_UP) { // move up
