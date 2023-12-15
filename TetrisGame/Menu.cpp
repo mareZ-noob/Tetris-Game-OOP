@@ -87,24 +87,6 @@ string Menu::getPlayerName() const {
     return this->playerName;
 }
 
-Menu* Menu::instance = nullptr;
-mutex Menu::mutex_;
-Menu* Menu::getInstance() {
-    lock_guard<mutex> lock(mutex_);
-    if (instance == nullptr) {
-        instance = new Menu();
-    }
-    return instance;
-}
-
-void Menu::deleteInstance() {
-    lock_guard<mutex> lock(mutex_);
-    if (instance != nullptr) {
-        delete instance;
-        instance = nullptr;
-    }
-}
-
 //MENU 1:
 void Menu::MainMenu() {
     setX(42);
@@ -650,12 +632,4 @@ void Menu::printModernModeMenu() {
     Graphic::getInstance()->artAtPosition("static\\ascii\\modern.txt", 35, 11, Color::BLACK, Color::YELLOW);
     Screen::getInstance()->drawBorder();
     selectionMenu3();
-}
-
-void Menu::deleteAllInstances() {
-    deleteInstance();
-    Color::deleteInstance();
-    Graphic::deleteInstance();
-    Leaderboard::deleteInstance();
-    Screen::deleteInstance();
 }

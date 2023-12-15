@@ -34,4 +34,4 @@
 // Constants
 const int ROW = 10;
 const int COL = 20;
-const int MAX_SCORE = 500;
+const int MAX_SCORE = 25;

@@ -8,8 +8,6 @@
 #include "Constant.h"
 #include "Game.h"
 #include "Graphic.h"
-#include "Leaderboard.h"
-#include "Player.h"
 #include "Screen.h"
 
 using std::cin;
@@ -23,9 +21,6 @@ using std::unique_ptr;
 
 class Menu {
 private:
-    static Menu* instance;
-    static mutex mutex_;
-
     int x, y, w, h;
     int textColor;
     int buttonColor;
@@ -59,10 +54,6 @@ public:
     int getBackgroundColor() const;
     int getSelection() const;
     string getPlayerName() const;
-
-    // Singleton
-    static Menu* getInstance();
-    static void deleteInstance();
 
     // Console functions
     //MENU 1

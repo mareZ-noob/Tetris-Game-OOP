@@ -70,6 +70,7 @@ void Leaderboard::printLeaderboard() {
 			players.push_back(Player(name, score, time));
 		}
 	}
+	Screen::getInstance()->drawBorder();
 	Graphic::getInstance()->readFileAtPosition("static\\ascii\\leaderboard.txt", 13, 3, Color::BLACK, Color::LIGHTGREEN);
 
 	Color::getInstance()->consoleTextColor(Color::LIGHTGREEN);

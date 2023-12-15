@@ -11,10 +11,14 @@
 #include <vector>
 
 #include "Block.h"
+#include "Color.h"
 #include "Constant.h"
+#include "Graphic.h"
 #include "Grid.h"
 #include "Leaderboard.h"
 #include "Player.h"
+#include "Screen.h"
+#include "Sound.h"
 
 using std::async;
 using std::chrono::milliseconds;
@@ -93,4 +97,7 @@ public:
 
 	// Game start
 	void runTetris(const string playerName, int classic, int mode);
+
+	// Delete all instances
+	void deleteAllInstances();
 };

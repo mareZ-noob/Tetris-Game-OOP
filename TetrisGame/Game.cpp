@@ -354,25 +354,32 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 	pPlayer->setScore(game->getScore());
 	pPlayer->setTime(time);
 	Leaderboard::getInstance()->pushRecord(*pPlayer);
+	Screen::getInstance()->clearScreen();
 	if (game->getScore() == MAX_SCORE) {
-		Screen::getInstance()->clearScreen();
 		Graphic::getInstance()->artAtPosition("static\\ascii\\YouWin.txt", 32, 10, Color::BLACK, Color::LIGHTGREEN);
+		Screen::getInstance()->drawBorder();
 		Color::getInstance()->consoleTextColor(Color::WHITE);
 		Screen::getInstance()->moveCursor(17, 20);
 		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
 		cout << "\n\n\n";
-		exit(0);
+		Sound::getInstance()->playSound(Sound::WIN);
 	}
 	else {
-		Screen::getInstance()->clearScreen();
 		Graphic::getInstance()->artAtPosition("static\\ascii\\GameOver.txt", 24, 10, Color::BLACK, Color::LIGHTRED);
+		Screen::getInstance()->drawBorder();
 		Color::getInstance()->consoleTextColor(Color::WHITE);
 		Screen::getInstance()->moveCursor(17, 20);
 		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
 		cout << "\n\n\n";
-		Sleep(2000);
-		exit(0);
+		Sound::getInstance()->playSound(Sound::WHISTLE);
 	}
+	Sleep(3000);
+	Screen::getInstance()->clearScreen();
+	Leaderboard::getInstance()->printLeaderboard();
+	Sleep(2000);
+	Screen::getInstance()->clearScreen();
+	unique_ptr<Menu> menu(new Menu());
+	menu->MainMenu();
 }
 
 void Game::easyMode() {
@@ -420,4 +427,12 @@ void Game::gameInformation() {
 	cout << char(195);
 	Screen::getInstance()->goToXY(87, 21);
 	cout << char(180);
+}
+
+void Game::deleteAllInstances() {
+	Color::deleteInstance();
+	Graphic::deleteInstance();
+	Leaderboard::deleteInstance();
+	Screen::deleteInstance();
+	Sound::deleteInstance();
 }
