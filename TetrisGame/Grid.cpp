@@ -24,7 +24,7 @@ void Grid::drawGrid() {
 	Screen::getInstance()->resetConsoleColor();
 	Color::getInstance()->consoleTextColor(Color::DARKGRAY);
 
-	Screen::getInstance()->drawRectangle(19, 10, 1, 20);
+	/*Screen::getInstance()->drawRectangle(19, 10, 1, 20);
 	Screen::getInstance()->drawRectangle(21, 10, 1, 20);
 	Screen::getInstance()->drawRectangle(23, 10, 1, 20);
 	Screen::getInstance()->drawRectangle(25, 10, 1, 20);
@@ -33,7 +33,7 @@ void Grid::drawGrid() {
 	Screen::getInstance()->drawRectangle(31, 10, 1, 20);
 	Screen::getInstance()->drawRectangle(33, 10, 1, 20);
 	Screen::getInstance()->drawRectangle(35, 10, 1, 20);
-	Screen::getInstance()->drawRectangle(37, 10, 1, 20);
+	Screen::getInstance()->drawRectangle(37, 10, 1, 20);*/
 
 	Color::getInstance()->consoleTextColor(Color::BROWN);
 	Screen::getInstance()->drawRectangle(19, 10, 19, 20);

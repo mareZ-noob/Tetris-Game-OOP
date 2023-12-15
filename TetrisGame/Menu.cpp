@@ -159,7 +159,7 @@ void Menu::MainMenu() {
                 break;
             case 3:
                 Screen::getInstance()->Screen::createScreen();
-                Graphic::getInstance()->readFileAtPosition("static\\ascii\\howtoplay.txt", 22, 2, backgroundColor, Color::LIGHTRED);
+                Graphic::getInstance()->readFileAtPosition("static\\ascii\\HowToPlay.txt", 22, 2, backgroundColor, Color::LIGHTRED);
                 Graphic::getInstance()->readFileAtPosition("static\\text\\instructions.txt", 4, 8, backgroundColor, textColor);
                 Color::getInstance()->consoleTextColor(Color::LIGHTRED);
                 Screen::getInstance()->drawRectangle(24, 7, 58, 6);
@@ -395,7 +395,7 @@ void Menu::selectionMenu2() {
 }
 
 void Menu::printClassicModernMenu() {
-    Graphic::getInstance()->artAtPosition("static\\ascii\\chooseMode.txt", 20, 3, Color::BLACK, Color::LIGHTGRAY);
+    Graphic::getInstance()->artAtPosition("static\\ascii\\ChooseMode.txt", 20, 3, Color::BLACK, Color::LIGHTGRAY);
     Screen::getInstance()->drawBorder();
     selectionMenu2();
 }
@@ -520,7 +520,7 @@ void Menu::selectionMenu3() {
 }
 
 void Menu::printClassicModeMenu() {
-    Graphic::getInstance()->artAtPosition("static\\ascii\\chooseDifficulty.txt", 6, 3, Color::BLACK, Color::LIGHTGRAY);
+    Graphic::getInstance()->artAtPosition("static\\ascii\\ChooseDifficulty.txt", 6, 3, Color::BLACK, Color::LIGHTGRAY);
     Graphic::getInstance()->artAtPosition("static\\ascii\\classic.txt", 35, 11, Color::BLACK, Color::BROWN);
     Screen::getInstance()->drawBorder();
     selectionMenu3();
@@ -646,7 +646,7 @@ void Menu::selectionMenu4() {
 }
 
 void Menu::printModernModeMenu() {
-    Graphic::getInstance()->artAtPosition("static\\ascii\\chooseDifficulty.txt", 6, 3, Color::BLACK, Color::LIGHTGRAY);
+    Graphic::getInstance()->artAtPosition("static\\ascii\\ChooseDifficulty.txt", 6, 3, Color::BLACK, Color::LIGHTGRAY);
     Graphic::getInstance()->artAtPosition("static\\ascii\\modern.txt", 35, 11, Color::BLACK, Color::YELLOW);
     Screen::getInstance()->drawBorder();
     selectionMenu3();

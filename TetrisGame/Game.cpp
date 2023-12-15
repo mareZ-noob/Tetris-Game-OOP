@@ -139,12 +139,14 @@ void Game::drawNextBlock() {
 	int cellValue = nextBlock.id;
 	vector<Position> blockCells = nextBlock.getCellsPositions();
 	for (Position cell : blockCells) {
-		Screen::getInstance()->DrawRectangle(45 + 2 * cell.getCol(), 15 + cell.getRow(), cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
+		Screen::getInstance()->DrawRectangle(60 + 2 * cell.getCol(), 18 + cell.getRow(), cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
 	}
 }
 
 void Game::gameDisplay() {
 	Screen::getInstance()->clearScreen();
+	gameInformation();
+	Screen::getInstance()->drawBorder();
 	grid.drawGrid();
 	currentBlock.Draw();
 	drawNextBlock();
@@ -349,15 +351,24 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 	Leaderboard::getInstance()->pushRecord(*pPlayer);
 	if (game->getScore() == MAX_SCORE) {
 		Screen::getInstance()->clearScreen();
-		Screen::getInstance()->moveCursor(0, 0);
-		cout << "You win! Your score is is: " << game->score << " time: " << time << endl;
-		Sleep(2000);
+		Graphic::getInstance()->artAtPosition("static\\ascii\\YouWin.txt", 32, 10, Color::BLACK, Color::LIGHTGREEN);
+		Color::getInstance()->consoleTextColor(Color::WHITE);
+		Screen::getInstance()->moveCursor(17, 20);
+		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
+		cout << endl;
+		cout << endl;
+		cout << endl;
 		exit(0);
 	}
 	else {
 		Screen::getInstance()->clearScreen();
-		Screen::getInstance()->moveCursor(0, 0);
-		cout << "Game over! Your score is is: " << game->score << " time: " << time << endl;
+		Graphic::getInstance()->artAtPosition("static\\ascii\\GameOver.txt", 24, 10, Color::BLACK, Color::LIGHTRED);
+		Color::getInstance()->consoleTextColor(Color::WHITE);
+		Screen::getInstance()->moveCursor(17, 20);
+		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
+		cout << endl;
+		cout << endl;
+		cout << endl;
 		Sleep(2000);
 		exit(0);
 	}
@@ -381,4 +392,40 @@ void Game::hardMode() {
 void Game::veryHardMode() {
 	setMode(2);
 	setSpeed(200);
+}
+
+void Game::gameInformation() {
+	// display name & score
+	Screen::getInstance()->showCursor(0);
+	Color::getInstance()->consoleTextColor(Color::WHITE);
+	Screen::getInstance()->drawRectangle(50, 3, 36, 8);
+	Screen::getInstance()->Button(50, 3, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "        PLAYER'S INFORMATION");
+	Screen::getInstance()->goToXY(50, 5);
+	cout << char(195);
+	Screen::getInstance()->goToXY(87, 5);
+	cout << char(180);
+
+	Color::getInstance()->consoleTextColor(Color::CYAN);
+	Screen::getInstance()->goToXY(52, 7);
+	printf("Player's name:");
+	Screen::getInstance()->goToXY(52, 9);
+	printf("Score:");
+
+	// display next block
+	Color::getInstance()->consoleTextColor(Color::WHITE);
+	Screen::getInstance()->drawRectangle(50, 14, 36, 7);
+	Screen::getInstance()->Button(50, 14, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "             NEXT BLOCK");
+	Screen::getInstance()->goToXY(50, 16);
+	cout << char(195);
+	Screen::getInstance()->goToXY(87, 16);
+	cout << char(180);
+
+	// key guide
+	Screen::getInstance()->Button(45, 24, 29, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " D/RIGHT-ARROW : Move right");
+	Screen::getInstance()->Button(78, 24, 27, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " A/LEFT-ARROW : Move left");
+	Screen::getInstance()->Button(45, 27, 27, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " S/DOWN-ARROW : Move down");
+	Screen::getInstance()->Button(78, 27, 15, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " ENTER : DROP");
+	Screen::getInstance()->Button(45, 30, 28, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " W/UP-ARROW : Rotate right");
+	Screen::getInstance()->Button(78, 30, 22, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " SPACE : Rotate left");
+	//Screen::getInstance()->Button(65, 32, 13, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, " ESC : EXIT");
 }

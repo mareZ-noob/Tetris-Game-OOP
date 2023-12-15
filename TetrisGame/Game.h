@@ -87,6 +87,9 @@ public:
 	void hardMode();
 	void veryHardMode();
 
+	// Game's Information
+	void gameInformation();
+
 	// Game start
 	void runTetris(const string playerName, int classic, int mode);
 };
