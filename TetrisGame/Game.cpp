@@ -139,7 +139,7 @@ void Game::drawNextBlock() {
 	int cellValue = nextBlock.id;
 	vector<Position> blockCells = nextBlock.getCellsPositions();
 	for (Position cell : blockCells) {
-		Screen::getInstance()->DrawRectangle(60 + 2 * cell.getCol(), 18 + cell.getRow(), cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
+		Screen::getInstance()->DrawRectangle(60 + 2 * cell.getCol(), 23 + cell.getRow(), cellSize, cellSize, Color::getInstance()->getBlockColors()[cellValue], blockSymbols[cellValue]);
 	}
 }
 
@@ -398,34 +398,34 @@ void Game::gameInformation() {
 	// display name & score
 	Screen::getInstance()->showCursor(0);
 	Color::getInstance()->consoleTextColor(Color::WHITE);
-	Screen::getInstance()->drawRectangle(50, 3, 36, 8);
-	Screen::getInstance()->Button(50, 3, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "        PLAYER'S INFORMATION");
-	Screen::getInstance()->goToXY(50, 5);
+	Screen::getInstance()->drawRectangle(50, 8, 36, 8);
+	Screen::getInstance()->Button(50, 8, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "        PLAYER'S INFORMATION");
+	Screen::getInstance()->goToXY(50, 10);
 	cout << char(195);
-	Screen::getInstance()->goToXY(87, 5);
+	Screen::getInstance()->goToXY(87, 10);
 	cout << char(180);
 
 	Color::getInstance()->consoleTextColor(Color::CYAN);
-	Screen::getInstance()->goToXY(52, 7);
+	Screen::getInstance()->goToXY(52, 12);
 	printf("Player's name:");
-	Screen::getInstance()->goToXY(52, 9);
+	Screen::getInstance()->goToXY(52, 14);
 	printf("Score:");
 
 	// display next block
 	Color::getInstance()->consoleTextColor(Color::WHITE);
-	Screen::getInstance()->drawRectangle(50, 14, 36, 7);
-	Screen::getInstance()->Button(50, 14, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "             NEXT BLOCK");
-	Screen::getInstance()->goToXY(50, 16);
+	Screen::getInstance()->drawRectangle(50, 19, 36, 7);
+	Screen::getInstance()->Button(50, 19, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "             NEXT BLOCK");
+	Screen::getInstance()->goToXY(50, 21);
 	cout << char(195);
-	Screen::getInstance()->goToXY(87, 16);
+	Screen::getInstance()->goToXY(87, 21);
 	cout << char(180);
 
-	// key guide
-	Screen::getInstance()->Button(45, 24, 29, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " D/RIGHT-ARROW : Move right");
-	Screen::getInstance()->Button(78, 24, 27, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " A/LEFT-ARROW : Move left");
-	Screen::getInstance()->Button(45, 27, 27, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " S/DOWN-ARROW : Move down");
-	Screen::getInstance()->Button(78, 27, 15, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " ENTER : DROP");
-	Screen::getInstance()->Button(45, 30, 28, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " W/UP-ARROW : Rotate right");
-	Screen::getInstance()->Button(78, 30, 22, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " SPACE : Rotate left");
-	//Screen::getInstance()->Button(65, 32, 13, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, " ESC : EXIT");
+	//// key guide
+	//Screen::getInstance()->Button(45, 24, 27, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " D/RIGHT KEY : Move right");
+	//Screen::getInstance()->Button(78, 24, 25, 2, Color::LIGHTGREEN, Color::WHITE, Color::BLACK, " A/LEFT KEY : Move left");
+	//Screen::getInstance()->Button(45, 27, 25, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " S/DOWN KEY : Move down");
+	//Screen::getInstance()->Button(78, 27, 17, 2, Color::YELLOW, Color::WHITE, Color::BLACK, " E/ENTER : DROP");
+	//Screen::getInstance()->Button(45, 30, 26, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " W/UP KEY : Rotate right");
+	//Screen::getInstance()->Button(78, 30, 24, 2, Color::LIGHTBLUE, Color::WHITE, Color::BLACK, " X/SPACE : Rotate left");
+	////Screen::getInstance()->Button(65, 32, 13, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, " ESC : EXIT");
 }
