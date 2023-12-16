@@ -13,9 +13,9 @@ int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(NULL);
 	Screen::getInstance()->consoleInit();
-	
-	unique_ptr<Menu> menu(new Menu());
+
 	Sound::getInstance()->playSound(Sound::MARIO);
+	unique_ptr<Menu> menu(new Menu());
 	menu->MainMenu();
 
 	return 0;

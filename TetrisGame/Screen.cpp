@@ -172,8 +172,7 @@ void Screen::drawBorder() {
     drawRectangle(0, 0, 105, 35);
 }
 
-void Screen::drawBackButton()
-{
+void Screen::drawBackButton() {
     drawRectangle(0, 33, 21, 2);
     goToXY(1, 34);
     Color::getInstance()->consoleTextColor(Color::WHITE);
@@ -191,8 +190,7 @@ void Screen::drawBackButton()
 }
 
 
-void Screen::createScreen()
-{
+void Screen::createScreen() {
     clearScreen();
     drawBorder();
     drawBackButton();

@@ -36,7 +36,7 @@ void Grid::drawGrid() {
 	Screen::getInstance()->drawRectangle(37, 10, 1, 20);*/
 
 	Color::getInstance()->consoleTextColor(Color::BROWN);
-	Screen::getInstance()->drawRectangle(19, 10, 19, 20);
+	Screen::getInstance()->drawRectangle(19, 9, 19, 21);
 }
 
 void Grid::drawBlock() {

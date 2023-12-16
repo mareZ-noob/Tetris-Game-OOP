@@ -23,7 +23,7 @@ vector<Block> Game::getBlocks() const {
 
 Block Game::getRandomBlock() {
 	if (getClassicMode() == 1) {
-		srand(unsigned int(time(NULL)));
+		srand(time(NULL));
 		int random = rand() % blocks.size();
 		Block block = blocks[random];
 		return block;
@@ -32,7 +32,7 @@ Block Game::getRandomBlock() {
 		if (blocks.size() == 0) {
 			blocks = getBlocks();
 		}
-		srand(unsigned int(time(NULL)));
+		srand(time(NULL));
 		int random = rand() % blocks.size();
 		Block block = blocks[random];
 		blocks.erase(blocks.begin() + random);
@@ -144,12 +144,8 @@ void Game::drawNextBlock() {
 }
 
 void Game::gameDisplay(string name, int score) {
-	Screen::getInstance()->clearScreen();
-	Screen::getInstance()->drawBorder();
-	gameInformation();
-	grid.drawGrid();
-	Screen::getInstance()->goToXY(68, 12);
-	cout << name;
+	clearArea(20, 10, 19, 20);
+	clearArea(60, 23, 20, 2);
 	Screen::getInstance()->goToXY(68, 14);
 	cout << score;
 
@@ -259,6 +255,7 @@ void Game::disableBlock() {
 	setNextBlock(getRandomBlock());
 	int rowsDestroy = grid.clearRows().first;
 	if (rowsDestroy > 0) {
+		Sound::getInstance()->playSound(Sound::CLEAR);
 		updateScore(rowsDestroy, grid.clearRows().second);
 	}
 }
@@ -287,21 +284,14 @@ bool Game::checkGameFinish() {
 	return false;
 }
 
-void Game::newGame() {
-	grid.initGrid();
-	blocks = getBlocks();
-	currentBlock = getRandomBlock();
-	nextBlock = getRandomBlock();
-	score = 0;
-	gameOver = false;
-	mode = 1;
-	speed = 200;
-}
-
 void Game::runTetris(const string playerName, int classic, int mode) {
 	unique_ptr<Game> game(new Game());
 	unique_ptr<Player> pPlayer(new Player());
 	pPlayer->setName(playerName);
+	game->gameInformation();
+	grid.drawGrid();
+	Screen::getInstance()->goToXY(68, 12);
+	cout << playerName;
 
 	switch (classic) {
 		case 1:
@@ -326,6 +316,8 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 			game->veryHardMode();
 			break;
 	}
+	game->setCurrentBlock(game->getRandomBlock());
+	game->setNextBlock(game->getRandomBlock());
 	const milliseconds updateInterval(game->getSpeed());
 
 	future<void> handleInputFuture = async(launch::async, [&game]() {
@@ -336,7 +328,7 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 			game->handleInput();
 		}
 	});
-
+	
 	clock_t time_req = clock();
 	while (!checkGameFinish()) {
 		if (game->getGameOver()) {
@@ -349,6 +341,7 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 			break;
 		}
 	}
+	clearInputBuffer();
 	time_req = clock() - time_req;
 	int time = time_req / CLOCKS_PER_SEC;
 	pPlayer->setScore(game->getScore());
@@ -362,7 +355,19 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 		Screen::getInstance()->moveCursor(17, 20);
 		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
 		cout << "\n\n\n";
-		Sound::getInstance()->playSound(Sound::WIN);
+
+		future<void> sleepFuture = async(launch::async, []() {
+			Sleep(3000);
+		});
+		future<void> soundFuture = async(launch::async, []() {
+			Sound::getInstance()->playSound(Sound::WIN);
+		});
+		sleepFuture.get();
+		soundFuture.get();
+
+		Screen::getInstance()->clearScreen();
+		Leaderboard::getInstance()->printLeaderboard();
+		Sleep(3000);
 	}
 	else {
 		Graphic::getInstance()->artAtPosition("static\\ascii\\GameOver.txt", 24, 10, Color::BLACK, Color::LIGHTRED);
@@ -371,12 +376,16 @@ void Game::runTetris(const string playerName, int classic, int mode) {
 		Screen::getInstance()->moveCursor(17, 20);
 		cout << "YOUR SCORES: " << game->score << "pts  -  YOUR TIME: " << time << "s" << endl;
 		cout << "\n\n\n";
-		Sound::getInstance()->playSound(Sound::WHISTLE);
+
+		future<void> sleepFuture = async(launch::async, []() {
+			Sleep(2000);
+		});
+		future<void> soundFuture = async(launch::async, []() {
+			Sound::getInstance()->playSound(Sound::WHISTLE);
+		});
+		sleepFuture.get();
+		soundFuture.get();
 	}
-	Sleep(3000);
-	Screen::getInstance()->clearScreen();
-	Leaderboard::getInstance()->printLeaderboard();
-	Sleep(2000);
 	Screen::getInstance()->clearScreen();
 	unique_ptr<Menu> menu(new Menu());
 	menu->MainMenu();
@@ -403,7 +412,6 @@ void Game::veryHardMode() {
 }
 
 void Game::gameInformation() {
-	// display name & score
 	Screen::getInstance()->showCursor(0);
 	Color::getInstance()->consoleTextColor(Color::WHITE);
 	Screen::getInstance()->drawRectangle(50, 8, 36, 8);
@@ -419,7 +427,6 @@ void Game::gameInformation() {
 	Screen::getInstance()->goToXY(52, 14);
 	cout << "Score:";
 
-	// display next block
 	Color::getInstance()->consoleTextColor(Color::WHITE);
 	Screen::getInstance()->drawRectangle(50, 19, 36, 7);
 	Screen::getInstance()->Button(50, 19, 37, 2, Color::LIGHTRED, Color::WHITE, Color::BLACK, "             NEXT BLOCK");
@@ -427,6 +434,7 @@ void Game::gameInformation() {
 	cout << char(195);
 	Screen::getInstance()->goToXY(87, 21);
 	cout << char(180);
+
 }
 
 void Game::deleteAllInstances() {
@@ -435,4 +443,31 @@ void Game::deleteAllInstances() {
 	Leaderboard::deleteInstance();
 	Screen::deleteInstance();
 	Sound::deleteInstance();
+}
+
+void Game::clearArea(int x, int y, int w, int h) {
+	for (int i = y; i < y + h; ++i) {
+		for (int j = x; j < x + w; ++j) {
+			Screen::getInstance()->goToXY(j, i);
+			cout << ' ';
+		}
+	}
+}
+
+void Game::clearPreviousBlock() {
+	vector<Position> blockCells = currentBlock.getCellsPositions();
+	for (Position cell : blockCells) {
+		Screen::getInstance()->goToXY(COL + 2 * cell.getCol(), ROW + cell.getRow());
+		cout << ' ';
+	}
+}
+
+void Game::clearCell(int x, int y) {
+	Screen::getInstance()->goToXY(x, y);
+	cout << ' ';
+}
+
+void Game::clearInputBuffer() {
+	_flushall();  
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));  
 }

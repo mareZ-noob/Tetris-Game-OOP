@@ -84,7 +84,6 @@ public:
 	// Score
 	void updateScore(int rowsDestroy, int bonus);
 	bool checkGameFinish();
-	void newGame();
 
 	// Game mode
 	void easyMode();
@@ -100,4 +99,10 @@ public:
 
 	// Delete all instances
 	void deleteAllInstances();
+
+	// Clear
+	void clearArea(int x, int y, int w, int h);
+	void clearPreviousBlock();
+	void clearCell(int x, int y);
+	void clearInputBuffer();
 };

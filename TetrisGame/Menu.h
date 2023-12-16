@@ -77,7 +77,4 @@ public:
     void ModernModeMenu();
     void selectionMenu4();
     void printModernModeMenu();
-
-    // Delete all instances
-    void deleteAllInstances();
 };
