@@ -28,5 +28,4 @@ public:
     // Console functions
     void artAtPosition(string fileName, int backgroundColor, int textColor, int x, int y);
     void readFileAtPosition(string fileName, int x, int y, int backgroundColor, int textColor);
-    void tetris1(int x, int y);
 };
